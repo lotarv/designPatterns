@@ -25,8 +25,8 @@ def mult_of_digits_not_divide_by_5(number) #Метод 2 - Найти произ
         digit = numberCpy % 10
         result *= digit if (digit % 5 != 0)
         numberCpy /= 10
-    end
-    return result
+    end 
+    result
 end
 
 def gdc_special(number)  #Метод 3 - Найти НОД максимального нечетного непростого делителя числа и произведения цифр данного числа
@@ -60,6 +60,9 @@ def gdc_special(number)  #Метод 3 - Найти НОД максимальн�
 end
 
 
-puts gdc_special(545)
+arr = [1,2,3]
 
+puts arr
+arr[5] = 'sergey'
+print arr
 

@@ -2,7 +2,7 @@ puts "What is your name?";
 
 name = ARGV[0];
 # ARGV.clear;
-puts "Hello, %s, What is your favourite programming language?" % [name];
+puts "Hello, #{name}, What is your favourite programming language?";
 
 lang = $stdin.gets.chomp
 

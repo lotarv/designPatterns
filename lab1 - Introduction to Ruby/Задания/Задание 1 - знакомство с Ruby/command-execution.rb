@@ -11,3 +11,5 @@ eval(ruby_command);
 puts "Executing os command...";
 
 exec(os_command);
+#system(os_command)
+puts 123
