@@ -1,5 +1,10 @@
 class Student
     attr_accessor :id, :name,:surname, :middle_name,:phone,:telegram,:email,:git
+
+    def self.valid_number?(phone_number)
+        phone_number.nil? || /^(?:\+7|8)[\s-]?(?:\(?\d{3}\)?[\s-]?)\d{3}[\s-]?\d{2}[\s-]?\d{2}$/.match?(phone_number)
+    end
+
     def initialize(params)
         raise "id not provided" if !params[:id]
         self.id = params[:id]
@@ -28,4 +33,16 @@ class Student
         puts "git : #{@git}" if @git
         puts "***********************"
     end
+
+    def phone=(phone_number)
+        if !self.class.valid_number?(phone_number)
+            raise ArgumentError, "invalid phone number"
+        end
+        @phone = phone_number
+        
+        
+    end
+
 end
+
+  
