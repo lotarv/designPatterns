@@ -10,6 +10,16 @@ class Student
         @git = git
     end
 
+    def showInfo()
+        puts "*** #{@name} #{@middle_name} #{@surname} ***"
+        puts "id: #{@id}"
+        puts "phone: #{@phone}" if @phone
+        puts "telegram: #{@telegram}" if @telegram
+        puts "email: #{@email}" if @email
+        puts "git : #{@git}" if @github
+        puts "***********************"
+    end
+
     #getter & setter for @id
     def id
         @id
