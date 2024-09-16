@@ -21,8 +21,7 @@ class Student
         git.nil? || %r{^https?://github\.com/[a-zA-Z0-9_\-]+$}.match?(git)
     end
 
-
-
+    #Конструктор 
     def initialize(params)
         raise "id not provided" if !params[:id]
         self.id = params[:id]
@@ -42,6 +41,7 @@ class Student
         self.git = params[:git]
     end
 
+    #Метод для вывода информации о студенте
     def showInfo()
         puts "*** #{@name} #{@middle_name} #{@surname} ***"
         puts "id: #{@id}"
@@ -52,6 +52,29 @@ class Student
         puts "***********************"
     end
 
+    #Метод для валидации контактов
+
+    def validate()
+        if self.git.nil?
+            puts("У студента #{self.name} #{self.middle_name} #{self.surname} отсутствует git")
+        else
+            puts("git студента #{self.name} #{self.middle_name} #{self.surname}: #{self.git}")
+        end
+
+        if self.phone.nil? && self.email.nil?
+            puts("У студента #{self.name} #{self.middle_name} #{self.surname} нет контактов для связи")
+        elsif !self.phone.nil? && !self.email.nil?
+            puts("Телефон студента #{self.name} #{self.middle_name} #{self.surname}: #{self.phone}")
+            puts("email студента #{self.name} #{self.middle_name} #{self.surname}: #{self.email}")
+        else
+            puts("Телефон студента #{self.name} #{self.middle_name} #{self.surname}: #{self.phone}") if @phone
+            puts("email студента #{self.name} #{self.middle_name} #{self.surname}: #{self.email}") if @email
+        end
+
+
+    end
+
+    #setters
     def phone=(phone_number)
         if !self.class.valid_number?(phone_number)
             raise ArgumentError, "invalid phone number"
@@ -81,7 +104,7 @@ class Student
 
         @git = git
     end
-    
+
 
 end
 

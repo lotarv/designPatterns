@@ -8,10 +8,12 @@ student1 = Student.new(
   phone: '88005553535',
   telegram: '@lotarv',
   email: 'lotarev.serge@yandex.ru',
-  git: 'https://github.com/lotarv'}
+  git: 'https://github.com/lotarv'
+}
   )
 
 student1.showInfo()
+student1.validate()
 
 # student2 = Student.new(
 #   id:2,
