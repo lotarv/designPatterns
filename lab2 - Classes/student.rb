@@ -71,25 +71,58 @@ class Student
             puts("email студента #{self.name} #{self.middle_name} #{self.surname}: #{self.email}") if @email
         end
 
+    end
 
+    def set_contacts(contacts)
+        if contacts[:phone]
+            if self.class.valid_number?(contacts[:phone])
+                @phone = contacts[:phone]
+            else
+                raise ArgumentError, "invalid phone number"
+            end
+        end
+
+        if contacts[:git]
+            if self.class.valid_git?(contacts[:git])
+                @git = contacts[:git]
+            else
+                raise ArgumentErorr, "invalid git"
+            end
+        end
+
+        if contacts[:email]
+            if self.class.valid_email?(contacts[:email])
+                @email = contacts[:email]
+            else
+                raise ArgumentError, "invalid email"
+            end
+        end
+
+        if contacts[:telegram]
+            if self.class.valid_telegram?(contacts[:telegram])
+                @telegram = contacts[:telegram]
+            else
+                raise ArgumentError, "invalid telegram"
+            end
+        end
     end
 
     #setters
-    def phone=(phone_number)
+    private def phone=(phone_number)
         if !self.class.valid_number?(phone_number)
             raise ArgumentError, "invalid phone number"
         end
         @phone = phone_number  
     end
 
-    def email=(email)
+    private def email=(email)
         if !self.class.valid_email?(email)
             raise ArgumentError, "invalid email"
         end
         @email = email
     end
 
-    def telegram=(telegram)
+    private def telegram=(telegram)
         if !self.class.valid_telegram?(telegram)
             raise ArgumentError, "invalid telegram"
         end
@@ -97,7 +130,7 @@ class Student
         @telegram = telegram
     end
 
-    def git=(git)
+    private def git=(git)
         if !self.class.valid_git?(git)
             raise ArgumentError, "invalid git link"
         end
