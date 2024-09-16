@@ -1,9 +1,27 @@
 class Student
     attr_accessor :id, :name,:surname, :middle_name,:phone,:telegram,:email,:git
 
+    #phone number validation
     def self.valid_number?(phone_number)
         phone_number.nil? || /^(?:\+7|8)[\s-]?(?:\(?\d{3}\)?[\s-]?)\d{3}[\s-]?\d{2}[\s-]?\d{2}$/.match?(phone_number)
     end
+
+    #email validation
+    def self.valid_email?(email)
+        email.nil? || /^[\w+_.-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.match?(email)
+    end
+
+    #telegram validation
+    def self.valid_telegram?(telegram) 
+        telegram.nil? || /@[a-zA-Z0-9_]{5,}$/.match?(telegram)
+    end
+
+    #git validation
+    def self.valid_git?(git)
+        git.nil? || %r{^https?://github\.com/[a-zA-Z0-9_\-]+$}.match?(git)
+    end
+
+
 
     def initialize(params)
         raise "id not provided" if !params[:id]
@@ -38,10 +56,32 @@ class Student
         if !self.class.valid_number?(phone_number)
             raise ArgumentError, "invalid phone number"
         end
-        @phone = phone_number
-        
-        
+        @phone = phone_number  
     end
+
+    def email=(email)
+        if !self.class.valid_email?(email)
+            raise ArgumentError, "invalid email"
+        end
+        @email = email
+    end
+
+    def telegram=(telegram)
+        if !self.class.valid_telegram?(telegram)
+            raise ArgumentError, "invalid telegram"
+        end
+
+        @telegram = telegram
+    end
+
+    def git=(git)
+        if !self.class.valid_git?(git)
+            raise ArgumentError, "invalid git link"
+        end
+
+        @git = git
+    end
+    
 
 end
 
