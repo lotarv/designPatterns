@@ -12,9 +12,8 @@ student1 = Student.new(
 }
   )
 
-student1.showInfo()
-student1.set_contacts({phone:"81001001010", email: "dskdk@dfk.ru"})
-student1.showInfo()
+
+print student1.getGit()
 
 # student2 = Student.new(
 #   id:2,

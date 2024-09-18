@@ -107,6 +107,41 @@ class Student
         end
     end
 
+    def getInfo()
+        result = "#{self.surname} #{self.name[0].upcase()}. #{self.middle_name[0].upcase()}. "
+        if @git
+            result += "git: #{self.git} "
+        end
+
+        if @phone
+            result += "телефон: #{self.phone}"
+            return result
+        elsif @email
+            result += "email: #{self.email}"
+            return result
+        elsif @telegram
+            result += "telegram: #{self.telegram}"
+            return result
+        end
+        result
+    end
+
+    def getFullName()
+        "#{self.surname} #{self.name[0].upcase()}. #{self.middle_name[0].upcase()}. "
+    end
+
+    def getGit()
+        if @git
+            return "git: #{self.git}"
+        else
+            return "git is unknown"
+        end
+    end
+
+    
+            
+            
+
     #setters
     private def phone=(phone_number)
         if !self.class.valid_number?(phone_number)
