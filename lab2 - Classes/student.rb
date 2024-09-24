@@ -137,11 +137,7 @@ class Student
             return "git is unknown"
         end
     end
-
     
-            
-            
-
     #setters
     private def phone=(phone_number)
         if !self.class.valid_number?(phone_number)
