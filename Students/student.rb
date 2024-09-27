@@ -1,5 +1,6 @@
-class Student
-    attr_accessor :id, :name,:surname, :middle_name,:phone,:telegram,:email,:git
+require './person.rb'
+class Student < Person
+    attr_accessor :name,:surname, :middle_name,:phone,:telegram,:email
 
     #phone number validation
     def self.valid_number?(phone_number)
@@ -15,12 +16,7 @@ class Student
     def self.valid_telegram?(telegram) 
         telegram.nil? || /@[a-zA-Z0-9_]{5,}$/.match?(telegram)
     end
-
-    #git validation
-    def self.valid_git?(git)
-        git.nil? || %r{^https?://github\.com/[a-zA-Z0-9_\-]+$}.match?(git)
-    end
-
+    
     #Конструктор 
     def initialize(params)    
         required_keys = [:name, :surname, :middle_name]
@@ -134,13 +130,6 @@ class Student
         end
 
         @telegram = telegram
-    end
-
-    private def git=(git)
-        if !self.class.valid_git?(git)
-            raise ArgumentError, "invalid git link"
-        end
-        @git = git
     end
 
 end

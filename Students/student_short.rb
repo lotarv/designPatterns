@@ -1,16 +1,8 @@
-require './student.rb'
+require './person.rb'
 
-class Student_short
-    attr_accessor :id, :full_name, :git, :contact
+class Student_short < Person
+    attr_accessor :full_name, :contact
     private_class_method :new
-
-
-    def self.parse_from_string(string)
-        full_name, git, contact = string.split(', ')
-        contact = contact.split()[-1]
-        return full_name, git, contact
-    end
-        
 
     def initialize(id, full_name, git, contact)
         self.id = id

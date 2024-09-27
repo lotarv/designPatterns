@@ -15,9 +15,11 @@ student1 = Student.new(
 short = Student_short.new_from_student_obj(student1)
 puts student1.get_info()
 short2 = Student_short.new_from_string(5, student1.get_info())
+
+puts short2.git
+
 puts short2.contact
 
-print Student_short.parse_from_string(student1.get_info())
 # student2 = Student.new(
 #   id:2,
 #   name: "Амаль",
