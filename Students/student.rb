@@ -22,19 +22,18 @@ class Student
     end
 
     #Конструктор 
-    def initialize(params)
-        raise "id not provided" if !params[:id]
-        self.id = params[:id]
+    def initialize(params)    
+        required_keys = [:name, :surname, :middle_name]
+        required_keys.each do |key|
+            raise "#{key} not provided" if !params.key?(key)
+        end
 
-        raise "name not provided" if !params[:name]
-        self.name = params[:name]
-
-        raise "surname not provided" if !params[:surname]
-        self.surname = params[:surname]
-
-        raise "middle_name not provided" if !params[:middle_name]
+        self.name = params[:name] 
+        self.surname = params[:surname] 
         self.middle_name = params[:middle_name]
 
+        #необязательные параметры
+        self.id = params[:id]
         self.phone = params[:phone]
         self.telegram = params[:telegram]
         self.email = params[:email]
@@ -79,14 +78,6 @@ class Student
                 @phone = contacts[:phone]
             else
                 raise ArgumentError, "invalid phone number"
-            end
-        end
-
-        if contacts[:git]
-            if self.class.valid_git?(contacts[:git])
-                @git = contacts[:git]
-            else
-                raise ArgumentErorr, "invalid git"
             end
         end
 
