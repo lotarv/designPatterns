@@ -1,24 +1,23 @@
 require './student.rb'
-
+require './student_short.rb'
 student1 = Student.new(
-  {id:1,
+  {id:5,
   name: "Сергей",
   surname: "Лотарев",
   middle_name: "Юрьевич",
   phone: '88005553535',
-  telegram: '@lotarv',
+  # telegram: '@lotarv',
   email: 'lotarev.serge@yandex.ru',
   git: 'https://github.com/lotarv'
 }
   )
 
+short = Student_short.new_from_student_obj(student1)
+puts student1.get_info()
+short2 = Student_short.new_from_string(5, student1.get_info())
+puts short2.contact
 
-print student1.get_info()
-
-string = "somewhere i belong"
-
-
-
+print Student_short.parse_from_string(student1.get_info())
 # student2 = Student.new(
 #   id:2,
 #   name: "Амаль",

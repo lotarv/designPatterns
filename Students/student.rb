@@ -86,29 +86,10 @@ class Student
     end
 
     def get_info()
-        result = "#{self.surname} #{self.name[0].upcase()}. #{self.middle_name[0].upcase()}. "
-        if @git
-            result += "git: #{self.git} "
-        end
-
-        if @phone
-            result += "телефон: #{self.phone}"
-            return result
-        elsif @email
-            result += "email: #{self.email}"
-            return result
-        elsif @telegram
-            result += "telegram: #{self.telegram}"
-            return result
-        end
-        result
-    end
-
-    def get_info()
-        self.get_full_name + self.get_contact
+        self.get_full_name + ", " + self.git + ", " + self.get_contact
     end
     def get_full_name()
-        "#{self.surname} #{self.name[0].upcase()}. #{self.middle_name[0].upcase()}. "
+        "#{self.surname} #{self.name[0].upcase()}. #{self.middle_name[0].upcase()}."
     end
 
     def get_contact()
@@ -162,7 +143,5 @@ class Student
         @git = git
     end
 
-
 end
 
-  
