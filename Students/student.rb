@@ -34,20 +34,33 @@ class Student
 
         #необязательные параметры
         self.id = params[:id]
-        self.phone = params[:phone]
-        self.telegram = params[:telegram]
-        self.email = params[:email]
         self.git = params[:git]
+
+        #Установка контактов
+        self.set_contacts({
+            phone:params[:phone],
+            telegram:params[:telegram],
+            email:params[:email]
+         })
     end
 
     #Метод для вывода информации о студенте
-    def showInfo()
-        puts "*** #{@name} #{@middle_name} #{@surname} ***"
-        puts "id: #{@id}"
-        puts "phone: #{@phone}" if @phone
-        puts "telegram: #{@telegram}" if @telegram
-        puts "email: #{@email}" if @email
-        puts "git : #{@git}" if @git
+    def show_info()
+        puts "***********************"
+        attributes_to_show = {
+            "Полное имя" => self.get_full_name(),
+            "id" => @id,
+            "git" => @git,
+            "Номер телефона" => @phone, 
+            "telegram" => @telegram,
+            "email" => @email
+        }
+
+        attributes_to_show.each do |key, value| 
+            puts "#{key}: #{value}" if value
+        end
+
+
         puts "***********************"
     end
 
@@ -66,33 +79,13 @@ class Student
         !self.telegram.nil? || !self.phone.nil? || !self.email.nil?
     end
 
-    def set_contacts(contacts)
-        if contacts[:phone]
-            if self.class.valid_number?(contacts[:phone])
-                @phone = contacts[:phone]
-            else
-                raise ArgumentError, "invalid phone number"
-            end
-        end
-
-        if contacts[:email]
-            if self.class.valid_email?(contacts[:email])
-                @email = contacts[:email]
-            else
-                raise ArgumentError, "invalid email"
-            end
-        end
-
-        if contacts[:telegram]
-            if self.class.valid_telegram?(contacts[:telegram])
-                @telegram = contacts[:telegram]
-            else
-                raise ArgumentError, "invalid telegram"
-            end
-        end
+    def set_contacts(contacts)    
+        self.phone = contacts[:phone] if contacts[:phone]
+        self.email = contacts[:email] if contacts[:email]
+        self.telegram = contacts[:telegram] if contacts[:telegram]
     end
 
-    def getInfo()
+    def get_info()
         result = "#{self.surname} #{self.name[0].upcase()}. #{self.middle_name[0].upcase()}. "
         if @git
             result += "git: #{self.git} "
@@ -111,16 +104,8 @@ class Student
         result
     end
 
-    def getFullName()
+    def get_full_name()
         "#{self.surname} #{self.name[0].upcase()}. #{self.middle_name[0].upcase()}. "
-    end
-
-    def getGit()
-        if @git
-            return "git: #{self.git}"
-        else
-            return "git is unknown"
-        end
     end
     
     #setters
@@ -150,7 +135,6 @@ class Student
         if !self.class.valid_git?(git)
             raise ArgumentError, "invalid git link"
         end
-
         @git = git
     end
 

@@ -13,7 +13,9 @@ student1 = Student.new(
   )
 
 
-print student1.validate_git?()
+student1.show_info()
+student1.set_contacts({phone: "88002000202"})
+student1.show_info()
 
 
 # student2 = Student.new(
