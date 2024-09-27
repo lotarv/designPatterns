@@ -13,9 +13,8 @@ student1 = Student.new(
   )
 
 
-student1.show_info()
-student1.set_contacts({phone: "88002000202"})
-student1.show_info()
+print student1.get_info()
+
 string = "somewhere i belong"
 
 

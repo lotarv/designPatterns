@@ -104,8 +104,32 @@ class Student
         result
     end
 
+    def get_info()
+        self.get_full_name + self.get_contact
+    end
     def get_full_name()
         "#{self.surname} #{self.name[0].upcase()}. #{self.middle_name[0].upcase()}. "
+    end
+
+    def get_contact()
+        getting_info = {
+            "telegram" => self.telegram,
+            "телефон" => self.phone,
+            "email" => self.email,
+            
+        }
+
+        result_string = ''
+
+        #Берем первое найденное значение
+        getting_info.each do |key, value|
+            if value
+                result_string += "#{key}: #{value} "
+                break
+            end  
+        end
+
+        result_string
     end
     
     #setters
