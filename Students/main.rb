@@ -13,9 +13,9 @@ student1 = Student.new(
   )
 
 
-print student1.getGit()
+print student1.validate_git?()
 
-print "hello world"
+
 # student2 = Student.new(
 #   id:2,
 #   name: "Амаль",

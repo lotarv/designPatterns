@@ -53,23 +53,17 @@ class Student
 
     #Метод для валидации контактов
 
-    def validate()
-        if self.git.nil?
-            puts("У студента #{self.name} #{self.middle_name} #{self.surname} отсутствует git")
-        else
-            puts("git студента #{self.name} #{self.middle_name} #{self.surname}: #{self.git}")
-        end
+    def validate?()
+        self.validate_git?() && self.validate_contact?()
 
-        if self.phone.nil? && self.email.nil?
-            puts("У студента #{self.name} #{self.middle_name} #{self.surname} нет контактов для связи")
-        elsif !self.phone.nil? && !self.email.nil?
-            puts("Телефон студента #{self.name} #{self.middle_name} #{self.surname}: #{self.phone}")
-            puts("email студента #{self.name} #{self.middle_name} #{self.surname}: #{self.email}")
-        else
-            puts("Телефон студента #{self.name} #{self.middle_name} #{self.surname}: #{self.phone}") if @phone
-            puts("email студента #{self.name} #{self.middle_name} #{self.surname}: #{self.email}") if @email
-        end
+    end
 
+    def validate_git?()
+        !self.git.nil?
+    end
+
+    def validate_contact?()
+        !self.telegram.nil? || !self.phone.nil? || !self.email.nil?
     end
 
     def set_contacts(contacts)
