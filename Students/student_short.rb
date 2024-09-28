@@ -1,7 +1,7 @@
 require './person.rb'
 
 class Student_short < Person
-    attr_accessor :full_name, :contact
+    attr_writer :full_name, :contact
     private_class_method :new
 
     def initialize(id, full_name, git, contact)

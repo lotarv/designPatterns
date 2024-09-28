@@ -13,5 +13,14 @@ student1 = Student.new(
   )
 
 
-print student1.to_s()
+# puts student1.to_s()
+
+student2 = Student_short.new_from_student_obj(student1)
+
+
+puts student1.get_full_name()
+puts student2.get_full_name()
+
+puts student1.get_contact()
+puts student2.get_contact()
 

@@ -1,6 +1,6 @@
 require './person.rb'
 class Student < Person
-    attr_accessor :name,:surname, :middle_name,:phone,:telegram,:email
+    attr_accessor :name, :surname, :middle_name, :phone,:telegram,:email
 
     #phone number validation
     def self.valid_number?(phone_number)
@@ -70,10 +70,6 @@ class Student < Person
 
     end
 
-    def validate_git?()
-        !self.git.nil?
-    end
-
     def validate_contact?()
         !self.telegram.nil? || !self.phone.nil? || !self.email.nil?
     end
@@ -87,31 +83,9 @@ class Student < Person
     def get_info()
         self.get_full_name + ", " + self.git + ", " + self.get_contact
     end
-    def get_full_name()
-        "#{self.surname} #{self.name[0].upcase()}. #{self.middle_name[0].upcase()}."
-    end
+   
 
-    def get_contact()
-        getting_info = {
-            "telegram" => self.telegram,
-            "телефон" => self.phone,
-            "email" => self.email,
-            
-        }
 
-        result_string = ''
-
-        #Берем первое найденное значение
-        getting_info.each do |key, value|
-            if value
-                result_string += "#{key}: #{value} "
-                break
-            end  
-        end
-
-        result_string
-    end
-    
     #setters
     private def phone=(phone_number)
         if !self.class.valid_number?(phone_number)
@@ -134,11 +108,7 @@ class Student < Person
 
         @telegram = telegram
     end
-
-    private def id=(id_value)
-        @id = id_value
-    end
-
+    
     private def name=(name_value)
         @name = name_value
     end
@@ -150,7 +120,6 @@ class Student < Person
     private def middle_name=(middle_name_value)
         @middle_name = middle_name_value
     end
-    
 
 end
 
