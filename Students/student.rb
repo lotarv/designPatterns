@@ -41,8 +41,9 @@ class Student < Person
     end
 
     #Метод для вывода информации о студенте
-    def show_info()
-        puts "***********************"
+    def to_s()
+        result_string = "***********************\n"
+
         attributes_to_show = {
             "Полное имя" => self.get_full_name(),
             "id" => @id,
@@ -53,11 +54,13 @@ class Student < Person
         }
 
         attributes_to_show.each do |key, value| 
-            puts "#{key}: #{value}" if value
+            result_string += "#{key}: #{value}\n" if value
         end
 
 
-        puts "***********************"
+        result_string += "***********************\n"
+
+        result_string
     end
 
     #Метод для валидации контактов
@@ -131,6 +134,23 @@ class Student < Person
 
         @telegram = telegram
     end
+
+    private def id=(id_value)
+        @id = id_value
+    end
+
+    private def name=(name_value)
+        @name = name_value
+    end
+
+    private def surname=(surname_value)
+        @surname = surname_value
+    end
+
+    private def middle_name=(middle_name_value)
+        @middle_name = middle_name_value
+    end
+    
 
 end
 
