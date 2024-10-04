@@ -18,7 +18,8 @@ class Student < Person
     end
     
     #Конструктор 
-    def initialize(params)    
+    def initialize(params = {name:, surname:, middle_name:, id:nil, git:nil, phone:nil, telegram:nil, email:nil})
+
         required_keys = [:name, :surname, :middle_name]
         required_keys.each do |key|
             raise "#{key} not provided" if !params.key?(key)
@@ -83,8 +84,6 @@ class Student < Person
     def get_info()
         self.get_full_name + ", " + self.git + ", " + self.get_contact
     end
-   
-
 
     #setters
     private def phone=(phone_number)

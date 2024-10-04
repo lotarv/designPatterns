@@ -10,12 +10,6 @@ class Person
         !self.git.nil?
     end
 
-    def self.parse_from_string(string)
-        full_name, git, contact = string.split(', ')
-        contact = contact.split()[-1]
-        return full_name, git, contact
-    end
-
     def get_full_name()
         if @full_name
             return @full_name
@@ -27,7 +21,7 @@ class Person
         if @contact
             return @contact
         end
-        
+
         getting_info = {
             "telegram" => self.telegram,
             "телефон" => self.phone,
@@ -59,5 +53,4 @@ class Person
     private def id=(id_value)
         @id = id_value
     end
-
 end
