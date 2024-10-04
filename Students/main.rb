@@ -20,7 +20,5 @@ student2 = Student_short.new_from_student_obj(student1)
 
 student3 = Student_short.new_from_string(10, student1.get_info())
 
-puts student2.get_full_name()
-puts student2.get_contact()
 
-puts student3.get_full_name()
+puts student3.get_full_name

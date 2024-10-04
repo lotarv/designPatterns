@@ -1,8 +1,7 @@
 require './person.rb'
 
 class Student_short < Person
-    private
-    attr_writer :full_name, :contact
+    private attr_writer :full_name, :contact
     private_class_method :new
 
     def self.parse_from_string(string)

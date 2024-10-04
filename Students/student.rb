@@ -75,7 +75,7 @@ class Student < Person
         !self.telegram.nil? || !self.phone.nil? || !self.email.nil?
     end
 
-    def set_contacts(contacts)    
+    def set_contacts(contacts = {phone:nil, email:nil, telegram:nil})    
         self.phone = contacts[:phone] if contacts[:phone]
         self.email = contacts[:email] if contacts[:email]
         self.telegram = contacts[:telegram] if contacts[:telegram]
