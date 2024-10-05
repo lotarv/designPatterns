@@ -30,4 +30,8 @@ class Student_short < Person
         full_name, git, contact = self.parse_from_string(string)
         self.new(id, full_name, git, contact)
     end
+
+    def get_contact()
+        return @contact
+    end
 end

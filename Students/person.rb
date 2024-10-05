@@ -6,7 +6,7 @@ class Person
         git.nil? || %r{^https?://github\.com/[a-zA-Z0-9_\-]+$}.match?(git)
     end
 
-    def validate_git?()
+    def has_git?()
         !self.git.nil?
     end
 
@@ -21,25 +21,6 @@ class Person
         if @contact
             return @contact
         end
-
-        getting_info = {
-            "telegram" => self.telegram,
-            "телефон" => self.phone,
-            "email" => self.email,
-            
-        }
-
-        result_string = ''
-
-        #Берем первое найденное значение
-        getting_info.each do |key, value|
-            if value
-                result_string += "#{key}: #{value} "
-                break
-            end  
-        end
-
-        result_string
     end
 
     #setters
