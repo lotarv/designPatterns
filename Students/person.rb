@@ -18,9 +18,7 @@ class Person
     end
 
     def get_contact()
-        if @contact
-            return @contact
-        end
+        
     end
 
     #setters

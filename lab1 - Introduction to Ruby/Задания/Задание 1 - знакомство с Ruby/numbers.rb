@@ -1,5 +1,5 @@
 def is_prime (number)
-    return false if (number == 1)
+    return true if (number == 1)
     for i in 2...number
         if number % i == 0
             return false
