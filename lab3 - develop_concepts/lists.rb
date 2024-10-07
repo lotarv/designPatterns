@@ -44,8 +44,17 @@ def check_rotation(arr) #Задача 1.33
     end
 end
 
-# arr = [9,5,3,7,1,4,1,9]
-arr = [1,-1,2,-2,3,-3]
+def sum_on_interval(arr, range)
+    puts "Исходный массив: #{arr}"
+    puts "Интервал: #{range}"
+
+    result = arr.select {|x| range.include?(x)}.sum #Отбираем элементы из диапозона и суммируем их
+
+    puts "Результат: #{result}"
+end
+
+arr = [9,5,3,7,1,4,1,9]
+# arr = [1,-1,2,-2,3,-3]
 loop do
     menu
     choice = gets.chomp.to_i
@@ -57,8 +66,7 @@ loop do
     when 3
         check_rotation(arr)
     when 4
-        data = read_from_file
-        puts "Содержимое файла: #{data}" if data
+        sum_on_interval(arr, 1..5)
     when 6
         puts "Выход из программы"
         break
