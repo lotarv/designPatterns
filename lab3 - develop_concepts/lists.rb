@@ -3,13 +3,13 @@ def menu
     puts "1. Задача 1 - Найти элементы, расположенные перед последним минимальным"
     puts "2. Задача 2 - Найти элементы, расположенные после первого максимального"
     puts "3. Задача 3 - Проверить, чередуются ли в массиве положительные и отрицательные числа"
-    puts "4. Задача 2 - Найти элементы, расположенные после первого максимального"
-    puts "5. Задача 2 - Найти элементы, расположенные после первого максимального"
+    puts "4. Задача 4 - Найти сумму элементов, значение которых попадет в интервал"
+    puts "5. Задача 5 - Найти количество элементов, которые больше, чем сумма всех предыдущих"
     puts "6. Выход"
   end
   
 def read_from_keyboard
-    puts "Введите данные с клавиатуры:"
+    puts "Введите ваш выбор:"
     gets.chomp
 end
 
@@ -53,7 +53,22 @@ def sum_on_interval(arr, range)
     puts "Результат: #{result}"
 end
 
-arr = [9,5,3,7,1,4,1,9]
+def count_elems_more_than_sum_prev(arr)
+
+    #Cоздание массива сумм предыдущих элементов
+    previous_sums = arr.map.with_index {|_, index| arr.take(index).sum}
+
+    #Находим количество элементов, которые больше соответствующих сумм
+
+    print arr.zip(previous_sums)
+    count = arr.zip(previous_sums).count {|elem, sum| elem > sum}
+
+    puts "Результат: #{count}"
+
+end
+
+
+arr = [9,14,3,7,1,4,1,9]
 # arr = [1,-1,2,-2,3,-3]
 loop do
     menu
@@ -67,6 +82,8 @@ loop do
         check_rotation(arr)
     when 4
         sum_on_interval(arr, 1..5)
+    when 5
+        count_elems_more_than_sum_prev(arr)
     when 6
         puts "Выход из программы"
         break
