@@ -40,7 +40,14 @@ class ArrProc
         return false
     end
 
-    def sum
+    def sum(&block)  # Summing elements that suitable for confition
+        sum = 0
+        for i in 0...self.arr.length
+            if yield self.arr[i]
+                sum += self.arr[i]
+            end
+        end
+        return sum
     end
 
     def reduce
@@ -64,3 +71,5 @@ arrProc = ArrProc.new(new_arr)
 puts(arrProc.filter {|num| num > 3})
 puts(arrProc.member?(3))
 puts(arrProc.member?(20))
+
+puts (arrProc.sum {|num| num.even?})
