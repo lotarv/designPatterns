@@ -50,10 +50,23 @@ class ArrProc
         return sum
     end
 
-    def reduce
+    def reduce(init,&block)
+        acc = init
+        for i in 0...self.arr.length
+            acc = yield acc, self.arr[i]
+        end
+
+        return acc
     end
 
-    def include?
+    def include?(&block)
+        for i in 0...self.arr.length
+            if yield self.arr[i]
+                return true
+            end
+        end
+        
+        return false
     end
 
     def chunk
@@ -73,3 +86,8 @@ puts(arrProc.member?(3))
 puts(arrProc.member?(20))
 
 puts (arrProc.sum {|num| num.even?})
+
+puts arrProc.reduce(1) {|acc, num| acc * num}
+puts arrProc.reduce(1) {|acc, num| acc + num}
+
+puts arrProc.include? {|num| num > 5}
