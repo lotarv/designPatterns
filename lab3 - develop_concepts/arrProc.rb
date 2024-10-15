@@ -22,29 +22,29 @@ class ArrProc
 
     def filter(&block)
         new_arr = []
-        for i in 0...self.arr.length
-            if yield self.arr[i]
-                new_arr.append(self.arr[i])
+        self.arr.each do |element|
+            if yield element
+                new_arr.append(element)
             end
         end
         return new_arr
 
     end
 
-    def member?(element)
-        for i in 0...self.arr.length
-            if self.arr[i] == element
+    def member?(value)
+        self.arr.each do |element|
+            if element == value
                 return true
             end
         end
         return false
     end
 
-    def sum(&block)  # Summing elements that suitable for confition
+    def sum(&block)  # Сумммирует только те элементы, которые подходят под условие
         sum = 0
-        for i in 0...self.arr.length
-            if yield self.arr[i]
-                sum += self.arr[i]
+        self.arr.each do |element|
+            if yield element
+                sum += element
             end
         end
         return sum
@@ -52,22 +52,23 @@ class ArrProc
 
     def reduce(init,&block)
         acc = init
-        for i in 0...self.arr.length
-            acc = yield acc, self.arr[i]
+        self.arr.each do |element|
+            acc = yield acc, element
         end
 
         return acc
     end
 
-    def include?(&block)
-        for i in 0...self.arr.length
-            if yield self.arr[i]
+    def include?(&block)  #true если хотя бы один элемент подходит под условие, иначе false
+        self.arr.each do |element|
+            if yield element
                 return true
             end
         end
         
         return false
     end
+
 
     def chunk(&block)
         collections = []  # Массив для хранения групп
@@ -89,6 +90,8 @@ class ArrProc
     
         collections  # Возвращаем массив групп
     end
+
+    
     
 end
 
@@ -96,15 +99,15 @@ new_arr = [1,2,3,4,5]
 
 arrProc = ArrProc.new(new_arr)
 
-# puts(arrProc.filter {|num| num > 3})
-# puts(arrProc.member?(3))
-# puts(arrProc.member?(20))
+puts(arrProc.filter {|num| num > 3})
+puts(arrProc.member?(3))
+puts(arrProc.member?(20))
 
-# puts (arrProc.sum {|num| num.even?})
+puts (arrProc.sum {|num| num.even?})
 
-# puts arrProc.reduce(1) {|acc, num| acc * num}
-# puts arrProc.reduce(1) {|acc, num| acc + num}
+puts arrProc.reduce(1) {|acc, num| acc * num}
+puts arrProc.reduce(1) {|acc, num| acc + num}
 
-# puts arrProc.include? {|num| num > 5}
+puts arrProc.include? {|num| num > 4}
 
 puts arrProc.chunk {|num| num.even?}.inspect
