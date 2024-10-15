@@ -2,7 +2,7 @@
 Вариант9.
 Методы:
 9 filter,
-21 member?,
+21 member?, ???????????????????????
 33 sum,
 28 reduce,
 16 include?,
@@ -31,7 +31,13 @@ class ArrProc
 
     end
 
-    def member?
+    def member?(element)
+        for i in 0...self.arr.length
+            if self.arr[i] == element
+                return true
+            end
+        end
+        return false
     end
 
     def sum
@@ -55,4 +61,6 @@ new_arr = [1,2,3,4,5]
 
 arrProc = ArrProc.new(new_arr)
 
-print(arrProc.filter {|num| num > 3})
+puts(arrProc.filter {|num| num > 3})
+puts(arrProc.member?(3))
+puts(arrProc.member?(20))
