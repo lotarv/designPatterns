@@ -10,47 +10,36 @@ def menu
   
 def read_from_keyboard
     puts "Введите ваш выбор:"
-    gets.chomp
+    return gets.chomp
 end
 
 def find_elements_before_last_min(arr) # Задача 1.9
-    puts "Исходный массив: #{arr}"
-
     min_value = arr.min
     min_index = arr.rindex(min_value)
     result = arr.slice(0, min_index)
 
-    puts "Результат: #{result}"
+    return result
 end
 
 def find_elements_after_first_max(arr) #Задача 1.21
-    puts "Исходный массив: #{arr}" 
     max_value = arr.max
     max_index = arr.index(max_value)
-    print max_index
     result = arr.slice(max_index + 1, arr.length)
 
-    puts "Результат: #{result}"
+    return result
 end
 
 def check_rotation(arr) #Задача 1.33
     
     result = arr.each_cons(2).all? {|a,b| (a.positive? && b.negative?) || (a.negative? && b.positive?)}
 
-    if result
-        puts "Числа чередуются"
-    else
-        puts "Числа не чередуются"
-    end
+    return result
 end
 
 def sum_on_interval(arr, range)
-    puts "Исходный массив: #{arr}"
-    puts "Интервал: #{range}"
-
     result = arr.select {|x| range.include?(x)}.sum #Отбираем элементы из диапозона и суммируем их
 
-    puts "Результат: #{result}"
+    return result
 end
 
 def count_elems_more_than_sum_prev(arr)
@@ -60,36 +49,46 @@ def count_elems_more_than_sum_prev(arr)
 
     #Находим количество элементов, которые больше соответствующих сумм
 
-    print arr.zip(previous_sums)
     count = arr.zip(previous_sums).count {|elem, sum| elem > sum}
 
-    puts "Результат: #{count}"
+    return count
 
 end
 
 
-arr = [9,14,3,7,1,4,1,9]
-# arr = [1,-1,2,-2,3,-3]
+# arr = [9,14,3,7,1,4,1,9]
+arr = [1,-1,2,-2,3,-3]
 loop do
     menu
     choice = gets.chomp.to_i
+    puts "Исходный массив: #{arr}" if choice <= 6
+    result = ""
     case choice
     when 1
-        find_elements_before_last_min(arr)
+        result = find_elements_before_last_min(arr)
     when 2
-        find_elements_after_first_max(arr)  
+        result = find_elements_after_first_max(arr)  
     when 3
-        check_rotation(arr)
+        rotation = check_rotation(arr)
+        if rotation
+            result = "Числа чередуются"
+        else
+            result = "Числа не чередуются"
+        end
+
     when 4
-        sum_on_interval(arr, 1..5)
+        puts "Интервал: #{1..5}"
+        result = sum_on_interval(arr, 1..5)
     when 5
-        count_elems_more_than_sum_prev(arr)
+        result = count_elems_more_than_sum_prev(arr)
     when 6
         puts "Выход из программы"
         break
     else
         puts "Неверный выбор, попробуйте снова"
     end
+
+    puts "Результат: #{result}" if result != ""
 end
 
   

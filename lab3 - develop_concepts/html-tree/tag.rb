@@ -48,6 +48,3 @@ class Tag
 
   end
  
-  testing = Tag.new(name: "h1", attributes: {height: "20px", width: "50px"}, content: "welcome")
-  puts testing.closing?
-  puts testing.opening_tag
