@@ -7,9 +7,10 @@ class Tag
       self.children = children
       self.content = content
     end
+
   
     def opening_tag
-      attrs = attributes.map { |key, value| "#{key}=\"#{value}\"" }.join(" ") unless attributes.empty?
+      attrs = attributes.map { |key, value| "#{key}=#{value}" }.join(" ") unless attributes.empty?
 
       return "<#{name} #{attrs}>#{content}</#{name}>"
     end
@@ -35,14 +36,6 @@ class Tag
 
     def add_child(child)
         self.children << child
-    end
-
-    def self.parse_attributes(attributes_str)
-        attributes = {}
-        attributes_str.scan(/([a-zA-Z]+)="([^" >]*)"/) do |key, value|
-            attributes[key] = value
-        end
-        attributes
     end
 
 
