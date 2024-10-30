@@ -22,22 +22,18 @@ class Tag
         end
     end
 
-    def closing?
-        return ["img", "input"].member?(name)
-    end
 
     def children_count
         children.length
-    end
-
-    def closing?
-        ["img", "input"].include?(self.name)
     end
 
     def add_child(child)
         self.children << child
     end
 
+    def to_s
+        return "name: #{self.name}, content: #{self.content}, children: #{self.children}, attributes: #{self.attributes}"
+    end
 
   end
  

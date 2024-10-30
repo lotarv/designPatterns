@@ -1,68 +1,11 @@
 require "./tag.rb"
-# def parse_html(html)
-#     stack = []
-#     parent_element = nil
-#     current_element = {
-#         name:"",
-#         content:"",
-#         attributes:{},
-#         children:[],
-#     }
-
-#     html.scan(/<[^>]+>|[^<]+/) do |token|
-#         token.strip!
-#         if token.start_with?("<")
-#             unless token.start_with?("</")
-#                 proceed_tag_opening(current_element, token)
-#             else
-#                 proceed_tag_closing(current_element, token)
-#             end
-#         elsif !token.empty?
-#             proceed_text(current_element, token)
-#         end
-        
-#     end
-# end
-
-# def proceed_tag_opening(current_element, token)
-#     puts "Message from proceed_tag_opening:"
-#     puts token
-#     tag_contains = token[1...-1].split(" ")  #Достаю все, что внутри <>
-#     tag_name = tag_contains[0]  #Достает имя тега
-#     tag_attributes_array = tag_contains[1..]  #Достает атрибуты тега в виде массива
-
-#     tag_attributes = {}
-#     tag_attributes_array.each do |element| 
-#         key, value = element.split("=")
-#         tag_attributes[key] = value
-#     end
-
-#     current_element[:name] = tag_name
-#     current_element[:attributes] = tag_attributes
-    
-# end
-
-# def proceed_tag_closing(current_element, token)
-#     puts "Message from proceed_tag_closing:"
-#     tag_name = token[2...-1]
-#     puts tag_name
-# end
-
-# def proceed_text(current_element, token)
-#     puts "Message from proceed_text:"
-    
-#     current_element[:content] = token;
-# end
-
 class Tree
+
     attr_accessor :root
     def initialize(html_string)
         self.root = self.parse_html(html_string)
     end
 
-    def to_s
-        return self.root
-    end
 
     def parse_html(html)
         stack = []
@@ -70,9 +13,11 @@ class Tree
     
         html.scan(/<[^>]+>|[^<]+/) do |token|
             token.strip!
+            parent_element = stack.last 
             if token.start_with?("<")
                 unless token.start_with?("</")
-                    parent_element = proceed_tag_opening(stack, token, parent_element)
+                    
+                    proceed_tag_opening(stack, token, parent_element)             
                 else
                     proceed_tag_closing(stack, token)
                 end
@@ -122,6 +67,30 @@ class Tree
         
         parent_element.content = token
     end
+
+    def to_html
+        root ? tag_to_html(root) : ""
+      end
+    
+      private
+    
+      def tag_to_html(tag)
+        # Сборка атрибутов тега в строку
+        attributes_str = tag.attributes.map { |key, value| "#{key}='#{value}'" }.join(" ")
+    
+        # Открывающий тег с атрибутами
+        opening_tag = attributes_str.empty? ? "<#{tag.name}>" : "<#{tag.name} #{attributes_str}>"
+    
+        # Контент, включая рекурсивный вызов для дочерних тегов
+        inner_content = tag.children.map { |child| tag_to_html(child) }.join + (tag.content || "")
+    
+        # Закрывающий тег
+        closing_tag = "</#{tag.name}>"
+    
+         # Полный HTML для текущего тега
+        "#{opening_tag}#{inner_content}#{closing_tag}"
+      end
+
 end
 
 
@@ -129,17 +98,13 @@ end
 # test_tag = Tag.new(name: "h1", attributes: {height: "20px", width: "50px"}, content: "welcome")
 
 
-html = "<div class='a' id='lol'> Block A </div>"
+html = "<div class='a' id='lol'>
+    <h1>Title Document</h1>
+    <p>Some text</p>
+</div>"
 
 new_tree = Tree.new(html)
 
-print new_tree
-html2 = "
-<h1> Welcome </h1>
-<div> 
-    <p> Paragraph </p>
-</div>
-"
-
-# parse_html(html)
+print(new_tree.root)
+print(new_tree.to_html)
 
