@@ -1,4 +1,6 @@
 require "./tag.rb"
+require "./tree_iterator_dfs.rb"
+require "./tree_iterator_bfs.rb"
 class Tree
 
     attr_accessor :root
@@ -6,7 +8,11 @@ class Tree
         self.root = self.parse_html(html_string)
     end
 
+    def dfs_iterator()
+        return Tree_iterator_dfs.new(self.root)
+    end
 
+    private
     def parse_html(html)
         stack = []
         parent_element = nil
@@ -38,7 +44,7 @@ class Tree
         tag_attributes = {}
         tag_attributes_array.each do |element| 
             key, value = element.split("=")
-            tag_attributes[key] = value
+            tag_attributes[key] = value[1...-1]
         end
 
         tag = Tag.new(name: tag_name, attributes: tag_attributes)
@@ -94,17 +100,4 @@ class Tree
 end
 
 
-
-# test_tag = Tag.new(name: "h1", attributes: {height: "20px", width: "50px"}, content: "welcome")
-
-
-html = "<div class='a' id='lol'>
-    <h1>Title Document</h1>
-    <p>Some text</p>
-</div>"
-
-new_tree = Tree.new(html)
-
-print(new_tree.root)
-print(new_tree.to_html)
 
