@@ -12,6 +12,10 @@ class Tree
         return Tree_iterator_dfs.new(self.root)
     end
 
+    def bfs_iterator()
+        return Tree_iterator_bfs.new(self.root)
+    end
+
     private
     def parse_html(html)
         stack = []
