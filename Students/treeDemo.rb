@@ -36,7 +36,7 @@ student3 = Student.new({
   birthdate: "26-10-2006",
 })
 
-student1 = Student.new({
+student4 = Student.new({
   id:3,
   name: "Никита",
   surname: "Смирнов",
@@ -47,7 +47,7 @@ student1 = Student.new({
   birthdate: "26-10-2001",
 })
 
-student2 = Student.new({
+student5 = Student.new({
   id:3,
   name: "Филипп",
   surname: "Матюха",
@@ -55,14 +55,15 @@ student2 = Student.new({
   phone: '85005005050',
   email: 'lotarev.serge@yandex.ru',
   git: 'https://github.com/lotarv',
-  birthdate: "26-10-2002",
 })
 
-print(student1 > student2)
-# bst.insert(student1)
-# bst.insert(student2)
-# bst.insert(student3)
-# bst.insert(student4)
-# bst.insert(student5)
 
-# bst.print_tree()
+
+
+bst.insert(student1)
+bst.insert(student2)
+bst.insert(student3)
+bst.insert(student4)
+bst.insert(student5)
+
+bst.print_tree()

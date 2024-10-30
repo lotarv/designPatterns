@@ -39,11 +39,9 @@ class BinarySearchTree
     end
 
     def print_tree(node = @root)
-
         return if node.nil?
-
+        print_tree(node.left)
         puts node.value
         print_tree(node.right)
-        print_tree(node.left)
     end
 end

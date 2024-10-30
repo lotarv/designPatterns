@@ -1,6 +1,9 @@
 require './person.rb'
 require "date"
 class Student < Person
+
+    include Comparable
+
     attr_reader :name, :surname, :middle_name, :phone,:telegram,:email, :birthdate
 
     #phone number validation
@@ -69,15 +72,16 @@ class Student < Person
         result_string
     end
 
+    # Метод для сравнения по дате рождения
     def <=>(other)
-        if self.key.nil? && other.key.nil?
+        if self.birthdate.nil? && other.birthdate.nil?
             0
-        elsif self.key.nil?
+        elsif self.birthdate.nil?
             1
-        elsif other.key.nil?
+        elsif other.birthdate.nil?
             -1
         else
-            self.key <=> other.key
+            self.birthdate <=> other.birthdate
         end
     end
 
@@ -164,29 +168,3 @@ class Student < Person
         @birthdate = new_birthdate
     end
 end
-
-# Пример создания студентов
-student1 = Student.new({
-  id: 3,
-  name: "Никита",
-  surname: "Смирнов",
-  middle_name: "Олегович",
-  phone: '86006006060',
-  email: 'lotarev.serge@yandex.ru',
-  git: 'https://github.com/lotarv',
-  birthdate: "26-10-2001",
-})
-
-student2 = Student.new({
-  id: 3,
-  name: "Филипп",
-  surname: "Матюха",
-  middle_name: "Андреевич",
-  phone: '85005005050',
-  email: 'lotarev.serge@yandex.ru',
-  git: 'https://github.com/lotarv',
-  birthdate: "26-10-2002",
-})
-
-
-print(student1 > student2)  
