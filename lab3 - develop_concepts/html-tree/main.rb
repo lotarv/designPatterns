@@ -15,10 +15,29 @@ html = "
 "
 html_tree = Tree.new(html)
 
-# Создаем итератор для обхода в глубину
-iterator = Tree_iterator_bfs.new(html_tree.root)
+def proceed_dfs(tree)
+  # Создаем итератор для обхода в глубину
+  iterator = tree.dfs_iterator
 
-# Выводим элементы дерева
-iterator.each do |node|
-  puts "Tag: #{node.name}, Attributes: #{node.attributes} Content: #{node.content}"
+  # Выводим элементы дерева
+  iterator.each do |node|
+    puts "Tag: #{node.name}, Attributes: #{node.attributes} Content: #{node.content}"
+  end
 end
+
+
+def proceed_bfs(tree)
+  # Создаем итератор для обхода в глубину
+  iterator = tree.bfs_iterator
+
+  # Выводим элементы дерева
+  iterator.each do |node|
+    puts "Tag: #{node.name}, Attributes: #{node.attributes} Content: #{node.content}"
+  end
+end
+
+proceed_dfs(html_tree)
+
+print "**********"
+
+proceed_bfs(html_tree)

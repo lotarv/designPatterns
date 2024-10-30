@@ -78,29 +78,6 @@ class Tree
         parent_element.content = token
     end
 
-    def to_html
-        root ? tag_to_html(root) : ""
-      end
-    
-      private
-    
-      def tag_to_html(tag)
-        # Сборка атрибутов тега в строку
-        attributes_str = tag.attributes.map { |key, value| "#{key}='#{value}'" }.join(" ")
-    
-        # Открывающий тег с атрибутами
-        opening_tag = attributes_str.empty? ? "<#{tag.name}>" : "<#{tag.name} #{attributes_str}>"
-    
-        # Контент, включая рекурсивный вызов для дочерних тегов
-        inner_content = tag.children.map { |child| tag_to_html(child) }.join + (tag.content || "")
-    
-        # Закрывающий тег
-        closing_tag = "</#{tag.name}>"
-    
-         # Полный HTML для текущего тега
-        "#{opening_tag}#{inner_content}#{closing_tag}"
-      end
-
 end
 
 
