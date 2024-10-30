@@ -1,6 +1,6 @@
 require './person.rb'
 class Student < Person
-    attr_reader :name, :surname, :middle_name, :phone,:telegram,:email
+    attr_reader :name, :surname, :middle_name, :phone,:telegram,:email, :birthdate
 
     #phone number validation
     def self.valid_number?(phone_number)
@@ -18,7 +18,7 @@ class Student < Person
     end
     
     #Конструктор 
-    def initialize(params = {name:, surname:, middle_name:, id:nil, git:nil, phone:nil, telegram:nil, email:nil})
+    def initialize(params = {name:, surname:, middle_name:, id:nil, git:nil, phone:nil, telegram:nil, email:nil, birthdate:nil})
 
         required_keys = [:name, :surname, :middle_name]
         required_keys.each do |key|
@@ -32,6 +32,7 @@ class Student < Person
         #необязательные параметры
         self.id = params[:id]
         self.git = params[:git]
+        self.birtdate = params[:birthdate]
 
         #Установка контактов
         self.set_contacts({
@@ -141,5 +142,8 @@ class Student < Person
         @middle_name = middle_name_value
     end
 
+    private def birthdate=(new_birthdate)
+        @birthdate = new_birthdate
+    end
 end
 
