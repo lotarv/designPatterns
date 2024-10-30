@@ -1,4 +1,5 @@
 require './person.rb'
+require "date"
 class Student < Person
     attr_reader :name, :surname, :middle_name, :phone,:telegram,:email, :birthdate
 
@@ -32,7 +33,9 @@ class Student < Person
         #необязательные параметры
         self.id = params[:id]
         self.git = params[:git]
-        self.birtdate = params[:birthdate]
+        
+        # Преобразование даты рождения в объект Date
+        self.birthdate = Date.strptime(params[:birthdate], "%d-%m-%Y") if params[:birthdate]
 
         #Установка контактов
         self.set_contacts({
@@ -52,7 +55,8 @@ class Student < Person
             "git" => @git,
             "Номер телефона" => @phone, 
             "telegram" => @telegram,
-            "email" => @email
+            "email" => @email,
+            "Дата рождения" => @birthdate,
         }
 
         attributes_to_show.each do |key, value| 
@@ -64,6 +68,19 @@ class Student < Person
 
         result_string
     end
+
+    def <=>(other)
+        if self.key.nil? && other.key.nil?
+            0
+        elsif self.key.nil?
+            1
+        elsif other.key.nil?
+            -1
+        else
+            self.key <=> other.key
+        end
+    end
+
 
     #Метод для валидации контактов
 
@@ -107,6 +124,7 @@ class Student < Person
         result_string
     end
 
+
     #setters
     private def phone=(phone_number)
         if !self.class.valid_number?(phone_number)
@@ -147,3 +165,28 @@ class Student < Person
     end
 end
 
+# Пример создания студентов
+student1 = Student.new({
+  id: 3,
+  name: "Никита",
+  surname: "Смирнов",
+  middle_name: "Олегович",
+  phone: '86006006060',
+  email: 'lotarev.serge@yandex.ru',
+  git: 'https://github.com/lotarv',
+  birthdate: "26-10-2001",
+})
+
+student2 = Student.new({
+  id: 3,
+  name: "Филипп",
+  surname: "Матюха",
+  middle_name: "Андреевич",
+  phone: '85005005050',
+  email: 'lotarev.serge@yandex.ru',
+  git: 'https://github.com/lotarv',
+  birthdate: "26-10-2002",
+})
+
+
+print(student1 > student2)  

@@ -1,3 +1,4 @@
+require "./student.rb"
 class TreeNode
     attr_accessor :value, :left, :right
     def initialize(value)
@@ -46,12 +47,3 @@ class BinarySearchTree
         print_tree(node.left)
     end
 end
-
-bst = BinarySearchTree.new();
-
-bst.insert(6)
-bst.insert(8)
-bst.insert(9)
-bst.insert(4)
-
-print bst.print_tree
