@@ -9,6 +9,9 @@ class TreeNode
 end
 
 class BinarySearchTree
+
+    include Enumerable
+
     attr_accessor :root
     def initialize
         @root = nil
@@ -43,5 +46,17 @@ class BinarySearchTree
         print_tree(node.left)
         puts node.value
         print_tree(node.right)
+    end
+
+    # Реализация метода each для модуля Enumerable
+    def each(&block)
+        traverse_in_order(@root, &block)
+    end
+
+    def traverse_in_order(node, &block)
+        return if node.nil?
+        traverse_in_order(node.left, &block)
+        block.call(node.value)
+        traverse_in_order(node.right, &block)
     end
 end

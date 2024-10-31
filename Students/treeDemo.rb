@@ -66,4 +66,4 @@ bst.insert(student3)
 bst.insert(student4)
 bst.insert(student5)
 
-bst.print_tree()
+print bst.map {| student | student.get_info}
