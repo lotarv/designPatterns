@@ -24,8 +24,7 @@ class Tree
             token.strip!
             parent_element = stack.last 
             if token.start_with?("<")
-                unless token.start_with?("</")
-                    
+                unless token.start_with?("</")   
                     proceed_tag_opening(stack, token, parent_element)             
                 else
                     proceed_tag_closing(stack, token)

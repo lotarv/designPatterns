@@ -8,20 +8,9 @@ class Tag
       self.content = content
     end
 
-  
-    def opening_tag
-      attrs = attributes.map { |key, value| "#{key}=#{value}" }.join(" ") unless attributes.empty?
-
-      return "<#{name} #{attrs}>#{content}</#{name}>"
+    def contain_attributes?
+        return !attributes.empty?
     end
-
-    def closing_tag
-        if self.closing?
-            attrs = attributes.map { |key, value| "#{key}=\"#{value}\"" }.join(" ") unless attributes.empty?
-            return "</#{name} #{attrs}>"
-        end
-    end
-
 
     def children_count
         children.length
