@@ -10,28 +10,26 @@
 '''
 
 class ArrProc
-    private attr_accessor :arr
-
     def initialize(arr)
-        self.arr = arr
+        @arr = arr
     end
 
     def to_s
-        self.arr.join(' ')
+       return @arr.join(' ')
     end
 
     def filter(&block)
-        new_arr = []
-        self.arr.each do |element|
-            if yield element
-                new_arr.append(element)
+        result = []
+        @arr.each do |element|
+            if block.call(element)
+                result << element
             end
         end
-        return new_arr
+        return result
     end
 
     def member?(value)
-        self.arr.each do |element|
+        @arr.each do |element|
             if element == value
                 return true
             end
@@ -41,26 +39,26 @@ class ArrProc
 
     def sum(&block)  # Сумммирует только те элементы, которые подходят под условие
         sum = 0
-        self.arr.each do |element|
-            if yield element
+        @arr.each do |element|
+            if block.call(element)
                 sum += element
             end
         end
         return sum
     end
 
-    def reduce(init,&block)
+    def reduce(init = @arr[0],&block)
         acc = init
-        self.arr.each do |element|
-            acc = yield acc, element
+        @arr.each do |element|
+            acc = block.call(acc, element)
         end
 
         return acc
     end
 
     def include?(&block)  #true если хотя бы один элемент подходит под условие, иначе false
-        self.arr.each do |element|
-            if yield element
+        @arr.each do |element|
+            if block.call(element)
                 return true
             end
         end
@@ -74,8 +72,8 @@ class ArrProc
         current_group = []  # Текущая группа
         previous_value = nil  # Хранит предыдущее значение блока
     
-        self.arr.each do |element|  # Итерируемся по каждому элементу
-            current_value = yield(element)  # Получаем значение блока для текущего элемента
+        @arr.each do |element|  # Итерируемся по каждому элементу
+            current_value = block.call(element)  # Получаем значение блока для текущего элемента
     
             # Если это первый элемент или значение изменилось, сохраняем предыдущую группу
             if previous_value.nil? || current_value != previous_value
