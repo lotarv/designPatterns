@@ -2,10 +2,9 @@ require "./tag.rb"
 require "./tree_iterator_dfs.rb"
 require "./tree_iterator_bfs.rb"
 class Tree
-
-    attr_accessor :root
+    attr_reader :root
     def initialize(html_string)
-        self.root = self.parse_html(html_string)
+        self.parse_html(html_string)
     end
 
     def dfs_iterator()
@@ -36,8 +35,6 @@ class Tree
             end
             
         end
-
-        return self.root
     end
     
     def proceed_tag_opening(stack, token, parent_element)
@@ -56,7 +53,7 @@ class Tree
         if parent_element
             parent_element.add_child(tag)
         else
-            self.root = tag
+            @root = tag
         end
 
         stack << tag

@@ -16,7 +16,7 @@ end
 def find_elements_before_last_min(arr) # Задача 1.9
     min_value = arr.min
     min_index = arr.rindex(min_value)
-    result = arr.slice(0, min_index)
+    result = arr.select.with_index {|_, index| index < min_index}
 
     return result
 end
@@ -24,7 +24,7 @@ end
 def find_elements_after_first_max(arr) #Задача 1.21
     max_value = arr.max
     max_index = arr.index(max_value)
-    result = arr.slice(max_index + 1, arr.length)
+    result = arr.select.with_index {|_, index| index > max_index}
 
     return result
 end
@@ -57,7 +57,7 @@ end
 
 
 # arr = [9,14,3,7,1,4,1,9]
-arr = [1,-1,2,-2,3,-3]
+arr = [1,-1,3,2,-2,-3,3,-3]
 loop do
     menu
     choice = gets.chomp.to_i

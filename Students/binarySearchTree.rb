@@ -12,7 +12,6 @@ class BinarySearchTree
 
     include Enumerable
 
-    attr_accessor :root
     def initialize
         @root = nil
     end
