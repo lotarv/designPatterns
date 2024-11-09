@@ -36,8 +36,14 @@ def proceed_bfs(tree)
   end
 end
 
-proceed_dfs(html_tree)
+# proceed_dfs(html_tree)
 
-print "**********"
+puts "**********"
 
-proceed_bfs(html_tree)
+# proceed_bfs(html_tree)
+
+empty_tags = html_tree.select {|tag| !tag.contain_attributes?}
+
+empty_tags.each do |tag| 
+  puts tag
+end

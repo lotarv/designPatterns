@@ -2,6 +2,9 @@ require "./tag.rb"
 require "./tree_iterator_dfs.rb"
 require "./tree_iterator_bfs.rb"
 class Tree
+
+    include Enumerable
+
     attr_reader :root
     def initialize(html_string)
         self.parse_html(html_string)
@@ -13,6 +16,14 @@ class Tree
 
     def bfs_iterator()
         return Tree_iterator_bfs.new(self.root)
+    end
+
+    def each(&block)
+        iterator = Tree_iterator_dfs.new(self.root)
+        iterator.each do |element| 
+            block.call(element)
+        end
+        
     end
 
     private
@@ -38,7 +49,7 @@ class Tree
     
     def proceed_tag_opening(stack, token, parent_element)
         tag_contains = token[1...-1].split(" ")  #Достаю все, что внутри <>
-        tag_name = tag_contains[0]  #Достает имя тега
+        tag_name = tag_contains[0]  
         tag_attributes_array = tag_contains[1..]  #Достает атрибуты тега в виде массива
     
         tag_attributes = {}
