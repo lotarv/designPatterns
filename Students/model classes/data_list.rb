@@ -30,6 +30,11 @@ class Data_list
         return Data_table.new(data)
     end
 
+    def set_content(new_content)
+        @arr.clear()
+        @arr = new_content.sort()
+    end
+
     def prepare_data(data)
         raise NotImplementedError
     end

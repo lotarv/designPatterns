@@ -20,7 +20,7 @@ class Data_list_student_short < Data_list
             cur_row = []
         end
     end
-    
+
 end
 
 
@@ -31,8 +31,18 @@ student_short4 = Student_short.new_from_string(4, "Марков М. С., https:/
 student_short5 = Student_short.new_from_string(5, "Антонов А. В., https://github.com/antonov, telegram: @antonov")
 
 
-data_list_short = Data_list_student_short.new([student_short1, student_short2, student_short3, student_short4, student_short5])
+student_short6 = Student_short.new_from_string(6, "Смирнов С. А., https://github.com/smirnov, telegram: @smirnov")
+student_short7 = Student_short.new_from_string(7, "Кузнецов К. П., https://github.com/kuznetsov, telegram: @kuznetsov")
+student_short8 = Student_short.new_from_string(8, "Лебедев Л. В., https://github.com/lebedev, telegram: @lebedev")
+student_short9 = Student_short.new_from_string(9, "Григорьев Г. О., https://github.com/grigoryev, telegram: @grigoryev")
+student_short10 = Student_short.new_from_string(10, "Федоров Ф. И., https://github.com/fedorov, telegram: @fedorov")
 
+
+
+data_list_short = Data_list_student_short.new([student_short1, student_short2, student_short3, student_short4, student_short5])
+print data_list_short.get_data
+
+data_list_short.set_content([student_short6,student_short7, student_short8])
 print data_list_short.get_data
 
 
