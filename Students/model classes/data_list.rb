@@ -1,3 +1,4 @@
+require_relative "data_table.rb"
 class Data_list
     def initialize(arr)
         @arr = arr.sort()
@@ -23,6 +24,13 @@ class Data_list
     end
 
     def get_data()
+        names = self.get_names
+        data = [names]
+        prepare_data(data)
+        return Data_table.new(data)
+    end
+
+    def prepare_data(data)
         raise NotImplementedError
     end
 end

@@ -7,9 +7,7 @@ class Data_list_student_short < Data_list
         return ["№","full_name", "git", "contact"]
     end
 
-    def get_data()
-        names = self.get_names()
-        data = [names]
+    private def prepare_data(data)
         cur_row = []
         cur_number = 1
         @arr.each do |student_short|
@@ -21,15 +19,8 @@ class Data_list_student_short < Data_list
             data.append(cur_row)
             cur_row = []
         end
-
-        dt = Data_table.new(data)
-
-        return dt  
     end
-
-    def attributes()
-        return @attributes
-    end
+    
 end
 
 
