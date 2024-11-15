@@ -1,8 +1,11 @@
-require './person.rb'
+require_relative './person.rb'
 
 class Student_short < Person
+
+    include Comparable
     private attr_writer :full_name, :contact
     private_class_method :new
+
 
     def self.parse_from_string(string)
         full_name, git, contact = string.split(', ')
@@ -33,5 +36,16 @@ class Student_short < Person
 
     def get_contact()
         return @contact
+    end
+
+    def full_name()
+        return @full_name
+    end
+
+    def <=>(other)
+        if self.full_name > other.full_name
+            return 1
+        else return -1
+        end
     end
 end
