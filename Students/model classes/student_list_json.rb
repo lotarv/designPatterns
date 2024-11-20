@@ -69,7 +69,7 @@ class Student_list_JSON
         @data.reject! {|data_obj| data_obj[:id] == id}
     end
 
-    
+
 
     def print_content()
         @data.each do |element|
@@ -77,6 +77,9 @@ class Student_list_JSON
         end
     end
 
+    def get_student_short_count()
+        return @data.count
+    end
     
     private 
     def get_data_from_student_obj(student_obj)
@@ -111,7 +114,6 @@ student1 = Student.new({
 
 json_list = Student_list_JSON.new()
 json_list.read("students.json")
-puts json_list.get_by_id(40)
-# json_list.delete_student(40)
-json_list.sort()
-print json_list.get_k_n_student_short_list(20,2).get_data()
+print json_list.get_student_short_count()
+json_list.delete_student(4)
+print json_list.get_student_short_count()
