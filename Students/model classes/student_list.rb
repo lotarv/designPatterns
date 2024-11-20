@@ -1,16 +1,19 @@
+require_relative "../student.rb"
+require_relative "../student_short.rb"
+require_relative "data_list.rb"
+require_relative "data_list_student_short.rb"
 class Student_list
-    def initialize()
+    def initialize(data_format)
+        @format = data_format
         @data = nil
     end
 
     def read(filename)
-        @filename = filename
-        load_data()
+        @data = @format.read(filename)
     end
 
     def write(filename = @filename)
-        string_to_write = make_string()
-        File.write(filename, string_to_write)
+        @format.write(filename, @data)
     end
 
     def get_by_id(id)
@@ -70,14 +73,6 @@ class Student_list
     end
 
     private
-
-    def load_data()
-        raise NotImplementedError, "method must be implemented in children-classes"
-    end
-
-    def make_string()
-        raise NotImplementedError, "method must be implemented in children-classes"
-    end
 
     def get_data_from_student_obj(student_obj)
         data_obj = {
