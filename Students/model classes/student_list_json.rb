@@ -30,7 +30,7 @@ class Student_list_JSON
     def get_k_n_student_short_list(k,n)
         start_from = k * (n-1)
         finish = start_from + k
-        slice = @data.slice(start_from...finish)
+        slice = @data.slice(start_from..finish)
 
         forming_data = []
 
@@ -63,6 +63,13 @@ class Student_list_JSON
         end
         
     end
+
+    def delete_student(id)
+        raise ArgumentError, "id is out of bounds" if id < 0 || id > self.get_max_id
+        @data.reject! {|data_obj| data_obj[:id] == id}
+    end
+
+    
 
     def print_content()
         @data.each do |element|
@@ -104,5 +111,7 @@ student1 = Student.new({
 
 json_list = Student_list_JSON.new()
 json_list.read("students.json")
-json_list.replace_student(40, student1)
-json_list.print_content()
+puts json_list.get_by_id(40)
+# json_list.delete_student(40)
+json_list.sort()
+print json_list.get_k_n_student_short_list(20,2).get_data()
