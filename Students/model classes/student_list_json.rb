@@ -52,7 +52,16 @@ class Student_list_JSON
         @data.push(data_obj)
     end
 
-    def replace_student(student_obj)
+    def replace_student(id, student_obj)
+        new_data_obj = get_data_from_student_obj(student_obj)
+        new_data_obj[:id] = id
+
+        @data.each_with_index do |data_obj, i|
+            if data_obj[:id] == id
+                @data[i] = new_data_obj
+            end
+        end
+        
     end
 
     def print_content()
@@ -81,21 +90,19 @@ class Student_list_JSON
     end
 end
 
-json_list = Student_list_JSON.new()
-json_list.read("students.json")
-# data_list = json_list.get_k_n_student_short_list(20,2)
-
 student1 = Student.new({
   id:5,
-  name: "Амаль",
-  surname: "Блягоз",
-  middle_name: "Хазретович",
+  name: "Бармалей",
+  surname: "Лотарев",
+  middle_name: "Юрьевич",
   phone: '88005553535',
-  telegram: '@lamafout',
+  # telegram: '@lotarv',
   email: 'lotarev.serge@yandex.ru',
   git: 'https://github.com/lotarv'
 })
-json_list.sort()
-json_list.add_student(student1)
 
+
+json_list = Student_list_JSON.new()
+json_list.read("students.json")
+json_list.replace_student(40, student1)
 json_list.print_content()
