@@ -42,8 +42,14 @@ class Student_list_JSON
         
     end
 
+    def sort()
+        @data.sort_by! {|student| [student[:surname], student[:name]]}
+    end
+
     def print_content()
-        print @data
+        @data.each do |element|
+            puts element
+        end
     end
 end
 
@@ -51,4 +57,6 @@ json_list = Student_list_JSON.new()
 json_list.read("students.json")
 data_list = json_list.get_k_n_student_short_list(20,2)
 
-print(data_list.get_data())
+json_list.sort()
+
+json_list.print_content()
