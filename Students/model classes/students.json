@@ -228,5 +228,175 @@
         "telegram": "@alexandrov",
         "email": "alexandrov.vadim@ya.ru",
         "git": "https://github.com/alexandrov"
+    },
+    {
+        "id": 24,
+        "name": "Константин",
+        "surname": "Егоров",
+        "middle_name": "Константинович",
+        "phone": "89200123457",
+        "telegram": "@egorov",
+        "email": "egorov.konstantin@gmail.com",
+        "git": "https://github.com/egorov"
+    },
+    {
+        "id": 25,
+        "name": "Аркадий",
+        "surname": "Жуков",
+        "middle_name": "Аркадьевич",
+        "phone": "89211234567",
+        "telegram": "@zhukov",
+        "email": "zhukov.arkadiy@mail.ru",
+        "git": "https://github.com/zhukov"
+    },
+    {
+        "id": 26,
+        "name": "Олег",
+        "surname": "Семенов",
+        "middle_name": "Олегович",
+        "phone": "89222345678",
+        "telegram": "@semenov",
+        "email": "semenov.oleg@gmail.com",
+        "git": "https://github.com/semenov"
+    },
+    {
+        "id": 27,
+        "name": "Станислав",
+        "surname": "Михайлов",
+        "middle_name": "Станиславович",
+        "phone": "89233456789",
+        "telegram": "@mihaylov",
+        "email": "mihaylov.stanislav@ya.ru",
+        "git": "https://github.com/mihaylov"
+    },
+    {
+        "id": 28,
+        "name": "Артем",
+        "surname": "Гончаров",
+        "middle_name": "Артемович",
+        "phone": "89244567891",
+        "telegram": "@goncharov",
+        "email": "goncharov.artem@mail.ru",
+        "git": "https://github.com/goncharov"
+    },
+    {
+        "id": 29,
+        "name": "Денис",
+        "surname": "Ковалев",
+        "middle_name": "Денисович",
+        "phone": "89255678912",
+        "telegram": "@kovalev",
+        "email": "kovalev.denis@gmail.com",
+        "git": "https://github.com/kovalev"
+    },
+    {
+        "id": 30,
+        "name": "Виталий",
+        "surname": "Логинов",
+        "middle_name": "Витальевич",
+        "phone": "89266789123",
+        "telegram": "@loginov",
+        "email": "loginov.vitaliy@ya.ru",
+        "git": "https://github.com/loginov"
+    },
+    {
+        "id": 31,
+        "name": "Тимур",
+        "surname": "Макаров",
+        "middle_name": "Тимурович",
+        "phone": "89277891234",
+        "telegram": "@makarov",
+        "email": "makarov.timur@mail.ru",
+        "git": "https://github.com/makarov"
+    },
+    {
+        "id": 32,
+        "name": "Геннадий",
+        "surname": "Соколов",
+        "middle_name": "Геннадьевич",
+        "phone": "89288912345",
+        "telegram": "@sokolov",
+        "email": "sokolov.gennadiy@gmail.com",
+        "git": "https://github.com/sokolov"
+    },
+    {
+        "id": 33,
+        "name": "Эдуард",
+        "surname": "Романов",
+        "middle_name": "Эдуардович",
+        "phone": "89299123456",
+        "telegram": "@romanov",
+        "email": "romanov.eduard@ya.ru",
+        "git": "https://github.com/romanov"
+    },
+    {
+        "id": 34,
+        "name": "Борис",
+        "surname": "Волков",
+        "middle_name": "Борисович",
+        "phone": "89300123457",
+        "telegram": "@volkov",
+        "email": "volkov.boris@mail.ru",
+        "git": "https://github.com/volkov"
+    },
+    {
+        "id": 35,
+        "name": "Игорь",
+        "surname": "Зайцев",
+        "middle_name": "Игоревич",
+        "phone": "89311234567",
+        "telegram": "@zaytsev",
+        "email": "zaytsev.igor@gmail.com",
+        "git": "https://github.com/zaytsev"
+    },
+    {
+        "id": 36,
+        "name": "Рустам",
+        "surname": "Попов",
+        "middle_name": "Рустамович",
+        "phone": "89322345678",
+        "telegram": "@popov",
+        "email": "popov.rustam@mail.ru",
+        "git": "https://github.com/popov"
+    },
+    {
+        "id": 37,
+        "name": "Глеб",
+        "surname": "Карпов",
+        "middle_name": "Глебович",
+        "phone": "89333456789",
+        "telegram": "@karpov",
+        "email": "karpov.gleb@gmail.com",
+        "git": "https://github.com/karpov"
+    },
+    {
+        "id": 38,
+        "name": "Семён",
+        "surname": "Чернов",
+        "middle_name": "Семёнович",
+        "phone": "89344567891",
+        "telegram": "@chernov",
+        "email": "chernov.semyon@ya.ru",
+        "git": "https://github.com/chernov"
+    },
+    {
+        "id": 39,
+        "name": "Вячеслав",
+        "surname": "Федотов",
+        "middle_name": "Вячеславович",
+        "phone": "89355678912",
+        "telegram": "@fedotov",
+        "email": "fedotov.vyacheslav@mail.ru",
+        "git": "https://github.com/fedotov"
+    },
+    {
+        "id": 40,
+        "name": "Кирилл",
+        "surname": "Савельев",
+        "middle_name": "Кириллович",
+        "phone": "89366789123",
+        "telegram": "@saveliev",
+        "email": "saveliev.kirill@gmail.com",
+        "git": "https://github.com/saveliev"
     }
 ]
