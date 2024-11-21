@@ -13,6 +13,6 @@ connection = PG.connect(
 result = connection.exec("SELECT * FROM student")
 
 result.each do |row|
-    cur = Student.new_from_hash(row)
-    puts cur
+    row["id"] = row["id"].to_i
+    puts row
 end
