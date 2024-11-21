@@ -48,6 +48,12 @@ class Student < Person
          })
     end
 
+    #Конструктор из хеша
+    def self.new_from_hash(params)
+        params = params.transform_keys(&:to_sym)
+        new(params)
+    end
+
     #Метод для вывода информации о студенте
     def to_s()
         result_string = "***********************\n"
