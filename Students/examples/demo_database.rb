@@ -1,8 +1,9 @@
 # main.rb
 
 require_relative '../database-connection/student_list_DB.rb'
-
+DB_connection.instance.connect()
 # Создание объекта Student_list_DB
+
 student_list_db = Student_list_DB.new
 
 # Создание нового студента
@@ -32,3 +33,5 @@ puts student_list_db.get_k_n_student_short_list(30, 1).get_data()
 
 # Получение количества студентов
 puts "Total number of students: #{student_list_db.count}"
+
+DB_connection.instance.close_connection()

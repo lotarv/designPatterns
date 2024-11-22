@@ -5,8 +5,6 @@ require_relative '../models/data_list/data_list_student_short.rb'
 require_relative 'db_connection.rb'
 class Student_list_DB
     def initialize()
-        @db_connection = DB_connection.instance
-        @db_connection.connect()
         @data = get_data_from_db()
     end
 
@@ -56,7 +54,7 @@ class Student_list_DB
 
     private 
     def get_data_from_db()
-        query_result = @db_connection.execute_query("SELECT * FROM student")
+        query_result = DB_connection.instance.execute_query("SELECT * FROM student")
         data = []
         query_result.each do |row|
             row["id"] = row["id"].to_i #Преобразую типы, т.к из бд integer приходит как строка
@@ -87,12 +85,12 @@ class Student_list_DB
     def add_student_to_db(data_obj)
         query = "INSERT INTO student(id,name,surname,middle_name, phone,telegram,email,git) 
         VALUES (#{data_obj[:id]}, '#{data_obj[:name]}', '#{data_obj[:surname]}','#{data_obj[:middle_name]}', '#{data_obj[:phone]}','#{data_obj[:telegram]}', '#{data_obj[:email]}', '#{data_obj[:git]}')"
-        @db_connection.execute_query(query)
+        DB_connection.instance.execute_query(query)
     end
 
     def delete_student_from_db(id)
         query = "DELETE FROM student WHERE id=#{id}"
-        @db_connection.execute_query(query)
+        DB_connection.instance.execute_query(query)
     end
 end
 
