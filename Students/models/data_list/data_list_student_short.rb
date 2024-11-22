@@ -1,7 +1,7 @@
 require_relative "data_list.rb"
 require_relative "../student_short.rb"
 require_relative "../student.rb"
-require_relative "data_table.rb"
+require_relative "../data_table/data_table.rb"
 class Data_list_student_short < Data_list
     def get_names()
         return ["№","full_name", "git", "contact"]

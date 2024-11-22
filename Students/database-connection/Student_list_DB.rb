@@ -1,7 +1,7 @@
 require 'pg'
-require_relative '../student.rb'
-require_relative '../student_short.rb'
-require_relative '../model classes/data_list_student_short.rb'
+require_relative '../models/student.rb'
+require_relative '../models/student_short.rb'
+require_relative '../models/data_list/data_list_student_short.rb'
 require_relative 'db_connection.rb'
 class Student_list_DB
     def initialize()

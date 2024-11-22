@@ -1,2 +1,0 @@
-1) validate_git? => has_git?
-2) разделить get_contact на два

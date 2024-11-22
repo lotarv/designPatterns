@@ -1,4 +1,3 @@
-require "./student.rb"
 class TreeNode
     attr_accessor :value, :left, :right
     def initialize(value)

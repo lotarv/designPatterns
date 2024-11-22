@@ -1,7 +1,7 @@
 require_relative "../student.rb"
 require_relative "../student_short.rb"
-require_relative "data_list.rb"
-require_relative "data_list_student_short.rb"
+require_relative "../data_list/data_list.rb"
+require_relative "../data_list/data_list_student_short.rb"
 class Student_list
     def initialize(data_format)
         @format = data_format

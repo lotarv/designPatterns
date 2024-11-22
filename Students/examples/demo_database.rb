@@ -1,6 +1,6 @@
 # main.rb
 
-require_relative 'student_list_DB.rb'
+require_relative '../database-connection/student_list_DB.rb'
 
 # Создание объекта Student_list_DB
 student_list_db = Student_list_DB.new
