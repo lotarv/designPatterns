@@ -2,15 +2,11 @@ require 'pg'
 require_relative '../student.rb'
 require_relative '../student_short.rb'
 require_relative '../model classes/data_list_student_short.rb'
+require_relative 'db_connection.rb'
 class Student_list_DB
     def initialize()
-        @connection = PG.connect(
-            dbname: 'postgres',
-            user: "postgres",
-            password: "password",
-            host:"localhost",
-            port:5432
-        )
+        @db_connection = DB_connection.instance
+        @db_connection.connect()
         @data = get_data_from_db()
     end
 
@@ -33,6 +29,7 @@ class Student_list_DB
         data_obj = get_data_from_student_obj(student_obj)
         data_obj[:id] = self.get_max_id + 1
         @data.push(data_obj)
+        add_student_to_db(data_obj)
     end
 
     def replace_student(id, student_obj)
@@ -50,6 +47,7 @@ class Student_list_DB
     def delete_student(id)
         raise ArgumentError, "id is out of bounds" if id < 0 || id > self.get_max_id
         @data.reject! {|data_obj| data_obj[:id] == id}
+        delete_student_from_db(id)
     end
 
     def count()
@@ -58,7 +56,7 @@ class Student_list_DB
 
     private 
     def get_data_from_db()
-        query_result = @connection.exec("SELECT * FROM student")
+        query_result = @db_connection.execute_query("SELECT * FROM student")
         data = []
         query_result.each do |row|
             row["id"] = row["id"].to_i #Преобразую типы, т.к из бд integer приходит как строка
@@ -85,12 +83,17 @@ class Student_list_DB
         max_id_element = @data.max_by {|data_obj| data_obj[:id]}
         return max_id_element[:id]
     end
-end
 
-sl = Student_list_DB.new()
-puts sl.count
-sl.delete_student(20)
-sl.delete_student(10)
-puts sl.count
+    def add_student_to_db(data_obj)
+        query = "INSERT INTO student(id,name,surname,middle_name, phone,telegram,email,git) 
+        VALUES (#{data_obj[:id]}, '#{data_obj[:name]}', '#{data_obj[:surname]}','#{data_obj[:middle_name]}', '#{data_obj[:phone]}','#{data_obj[:telegram]}', '#{data_obj[:email]}', '#{data_obj[:git]}')"
+        @db_connection.execute_query(query)
+    end
+
+    def delete_student_from_db(id)
+        query = "DELETE FROM student WHERE id=#{id}"
+        @db_connection.execute_query(query)
+    end
+end
 
 
