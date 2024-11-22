@@ -18,7 +18,7 @@ class Person
     end
 
     def get_contact()
-        
+        raise NotImplementedError, "This method must be overriden"
     end
 
     #setters
