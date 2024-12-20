@@ -5,7 +5,7 @@ include Fox
 class MainWindow < FXMainWindow
   def initialize(app)
     # Основное окно приложения
-    super(app, "Три области",opts: DECOR_ALL & ~DECOR_RESIZE, width: 915, height: 400)
+    super(app, "Три области",opts: DECOR_ALL & ~DECOR_RESIZE, width: 915, height: 440)
 
     # Контейнер с горизонтальным расположением
     main_frame = FXHorizontalFrame.new(self, LAYOUT_FILL_X | LAYOUT_FILL_Y)
@@ -130,6 +130,10 @@ end
 
     # Поле фильтрации по Telegram
     add_filter_section(filter_frame, "Telegram")
+
+    #Кнопка для сброса фильтров
+    FXButton.new(filter_frame, "Сбросить", opts: BUTTON_NORMAL)
+
   end
 
   def add_filter_section(parent, label_text)
@@ -158,6 +162,7 @@ end
       end
       section_frame.recalc
     end
+
   end
 
   def make_buttons(button_frame)
