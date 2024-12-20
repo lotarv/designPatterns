@@ -5,7 +5,7 @@ include Fox
 class MainWindow < FXMainWindow
   def initialize(app)
     # Основное окно приложения
-    super(app, "Три области",opts: DECOR_ALL & ~DECOR_RESIZE, width: 907, height: 400)
+    super(app, "Три области",opts: DECOR_ALL & ~DECOR_RESIZE, width: 915, height: 400)
 
     # Контейнер с горизонтальным расположением
     main_frame = FXHorizontalFrame.new(self, LAYOUT_FILL_X | LAYOUT_FILL_Y)
@@ -32,24 +32,91 @@ class MainWindow < FXMainWindow
   end
 
   def make_and_fill_table(parent_frame)
-    table = FXTable.new(parent_frame, opts: TABLE_READONLY | LAYOUT_FILL_X | LAYOUT_FILL_Y)
-    table.rowHeader.width = 0 # Скрываем заголовки строк
-    table.setTableSize(10, 4)
-    table.setColumnText(0, "№")
-    table.setColumnText(1, "Имя")
-    table.setColumnText(2, "git")
-    table.setColumnText(3, "Контакты")
-    table.setColumnWidth(0, 30)
-    table.setColumnWidth(1, 100)
-    table.setColumnWidth(2, 200)
-    table.setColumnWidth(3, 200)
-    (0..9).each do |row|
-        table.setItemText(row, 0, "#{row + 1}")
-        table.setItemText(row, 1, "Элемент #{row + 1}")
-        table.setItemText(row, 2, "Описание для элемента #{row + 1}")
-        table.setItemText(row, 3, "Описание для элемента #{row + 1}")
+    @table_data = Array.new(100) { |i| [i + 1, "Элемент #{i + 1}", "Описание #{i + 1}", "Контакты #{i + 1}"] }
+    @items_per_page = 15
+    @current_page = 0
+    @total_pages = (@table_data.length.to_f / @items_per_page).ceil
+    @sort_order = :asc # По умолчанию сортировка по возрастанию
+
+    table_frame = FXVerticalFrame.new(parent_frame, LAYOUT_FILL_X | LAYOUT_FILL_Y)
+
+    @table = FXTable.new(table_frame, opts: TABLE_READONLY | LAYOUT_FILL_X | LAYOUT_FILL_Y)
+    @table.rowHeader.width = 0 # Скрываем заголовки строк
+    @table.setTableSize(@items_per_page, 4)
+    @table.setColumnText(0, "№")
+    @table.setColumnText(1, "Имя")
+    @table.setColumnText(2, "git")
+    @table.setColumnText(3, "Контакты")
+    @table.setColumnWidth(0, 30)
+    @table.setColumnWidth(1, 100)
+    @table.setColumnWidth(2, 200)
+    @table.setColumnWidth(3, 200)
+
+    # Добавляем обработчик сортировки по колонке "Имя"
+    @table.columnHeader.connect(SEL_COMMAND) do |sender, sel, event|
+        if event.to_i == 1 # Если кликнули по заголовку колонки "Имя"
+            sort_table_data_by_name
+            update_table_data
+        end
     end
+    
+
+    # Пагинация
+    pagination_frame = FXHorizontalFrame.new(table_frame, LAYOUT_FILL_X | LAYOUT_CENTER_X)
+    prev_button = FXButton.new(pagination_frame, "< Предыдущая", opts: BUTTON_NORMAL | LAYOUT_SIDE_LEFT)
+    @page_label = FXLabel.new(pagination_frame, "Страница: 1 / #{@total_pages}", opts: JUSTIFY_CENTER_X | LAYOUT_FILL_X)
+    next_button = FXButton.new(pagination_frame, "Следующая >", opts: BUTTON_NORMAL | LAYOUT_SIDE_RIGHT)
+
+    prev_button.connect(SEL_COMMAND) do
+      @current_page -= 1 if @current_page > 0
+      update_table_data
+    end
+
+    next_button.connect(SEL_COMMAND) do
+      @current_page += 1 if (@current_page + 1) * @items_per_page < @table_data.size
+      update_table_data
+    end
+
+    update_table_data # Обновляем таблицу сразу после создания
+end
+
+  
+  def update_table_data
+    start_index = @current_page * @items_per_page
+    end_index = [start_index + @items_per_page, @table_data.size].min
+  
+    (0...@items_per_page).each do |row|
+      if start_index + row < end_index
+        item = @table_data[start_index + row]
+        @table.setItemText(row, 0, item[0].to_s)
+        @table.setItemText(row, 1, item[1])
+        @table.setItemText(row, 2, item[2])
+        @table.setItemText(row, 3, item[3])
+      else
+        @table.setItemText(row, 0, "")
+        @table.setItemText(row, 1, "")
+        @table.setItemText(row, 2, "")
+        @table.setItemText(row, 3, "")
+      end
+    end
+  
+    # Обновление метки текущей страницы
+    @page_label.text = "Страница: #{@current_page + 1} / #{@total_pages}" if @page_label
+  
+    # Обновление метки текущей страницы
+    @page_label.setText("Страница: #{@current_page + 1} / #{@total_pages}")
   end
+
+  # Метод для сортировки данных по колонке "Имя"
+def sort_table_data_by_name
+    if @sort_order == :asc
+        @table_data.sort_by! { |row| row[1] }
+        @sort_order = :desc
+    else
+        @table_data.sort_by! { |row| row[1] }.reverse!
+        @sort_order = :asc
+    end
+end
 
   def make_and_fill_filtration(filter_frame)
     FXLabel.new(filter_frame, "Фамилия и инициалы:")
@@ -68,7 +135,7 @@ class MainWindow < FXMainWindow
   end
 
   def add_filter_section(parent, label_text)
-    section_frame = FXVerticalFrame.new(parent, LAYOUT_FILL_X | LAYOUT_FIX_HEIGHT | FRAME_THICK,height:80)
+    section_frame = FXVerticalFrame.new(parent, LAYOUT_FILL_X | LAYOUT_FIX_HEIGHT | FRAME_THICK, height: 80)
     FXLabel.new(section_frame, label_text)
   
     # Выпадающий список (ComboBox)
@@ -99,7 +166,7 @@ end
 
 if __FILE__ == $0
   app = FXApp.new
-  MyApp.new(app)
+  MainWindow.new(app)
   app.create
   app.run
 end
