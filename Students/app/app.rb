@@ -20,10 +20,8 @@ class MainWindow < FXMainWindow
 
     # Область с кнопками
     button_frame = FXVerticalFrame.new(main_frame, FRAME_SUNKEN | LAYOUT_FILL_Y | LAYOUT_FIX_WIDTH, width: 150)
-    FXLabel.new(button_frame, "Действия")
-    FXButton.new(button_frame, "Добавить", opts: BUTTON_NORMAL | LAYOUT_FILL_X)
-    FXButton.new(button_frame, "Удалить", opts: BUTTON_NORMAL | LAYOUT_FILL_X)
-    FXButton.new(button_frame, "Редактировать", opts: BUTTON_NORMAL | LAYOUT_FILL_X)
+    
+    make_buttons(button_frame)
   end
 
   def create
@@ -161,6 +159,48 @@ end
       section_frame.recalc
     end
   end
+
+  def make_buttons(button_frame)
+    FXLabel.new(button_frame, "Действия")
+  
+    # Кнопка Добавить
+    FXButton.new(button_frame, "Добавить", opts: BUTTON_NORMAL | LAYOUT_FILL_X)
+  
+    # Кнопка Изменить
+    @edit_button = FXButton.new(button_frame, "Изменить", opts: BUTTON_NORMAL | LAYOUT_FILL_X)
+    @edit_button.enabled = false # По умолчанию отключена
+  
+    # Кнопка Удалить
+    @delete_button = FXButton.new(button_frame, "Удалить", opts: BUTTON_NORMAL | LAYOUT_FILL_X)
+    @delete_button.enabled = false # По умолчанию отключена
+  
+    # Кнопка Обновить
+    FXButton.new(button_frame, "Обновить", opts: BUTTON_NORMAL | LAYOUT_FILL_X).connect(SEL_COMMAND) do
+      update_table_data # Обновляет таблицу согласно установленным фильтрам
+    end
+  
+    # Подключаем обработчик выбора строк в таблице
+    @table.connect(SEL_CHANGED) do
+      selected_rows = []
+      (@table.selStartRow..@table.selEndRow).each do |row|
+        selected_rows << row if row >= 0 && row < @table.numRows && @table.rowSelected?(row)
+      end
+  
+      if selected_rows.size == 1 # Если выделена одна строка
+        @edit_button.enabled = true
+        @delete_button.enabled = true
+      elsif selected_rows.size > 1 # Если выделено больше одной строки
+        @edit_button.enabled = false
+        @delete_button.enabled = true
+      else # Если ничего не выделено
+        @edit_button.enabled = false
+        @delete_button.enabled = false
+      end
+    end
+  end
+  
+  
+  
 
 end
 
