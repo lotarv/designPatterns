@@ -27,12 +27,13 @@ class Student_list_view < FXMainWindow
     table_frame = FXVerticalFrame.new(main_frame, FRAME_SUNKEN | LAYOUT_FILL_X | LAYOUT_FILL_Y)
     markup_table(table_frame)
 
-    @controller.refresh_data()
 
     # Область с кнопками
     button_frame = FXVerticalFrame.new(main_frame, FRAME_SUNKEN | LAYOUT_FILL_Y | LAYOUT_FIX_WIDTH, width: 150)
     
     markup_buttons(button_frame)
+
+    @controller.refresh_data()
   end
 
   def create

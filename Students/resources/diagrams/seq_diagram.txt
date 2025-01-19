@@ -1,0 +1,57 @@
+@startuml
+actor User as user
+participant ":main" as main
+participant "app:FXapp" as app
+participant ":Student_list_view" as view
+participant ":Student_list_controller" as controller
+participant ":Student_list" as sl
+participant ":Data_list_student_short" as data_list
+activate user
+user -> main : run
+activate main
+
+main -> app : new()
+activate app
+
+app --> main : return
+deactivate app
+
+main -> view : new(app)
+activate view
+
+main -> view : app.create()
+main -> view : app.run()
+deactivate main
+
+view -> controller : new()
+activate controller
+
+controller -> sl: new(strategy)
+sl --> controller: return
+controller -> sl: read(filepath)
+controller -> data_list: new(array)
+data_list --> controller: return
+controller -> data_list: add_observer(view)
+controller --> view: return
+deactivate controller
+view -> view: markup_filtration()
+view -> view: markup_table()
+view -> view: markup_buttons()
+view -> controller: refresh_data()
+activate controller
+controller -> sl: get_k_n_student_short_list(k,n, data_list)
+sl -> data_list:set_content(data)
+data_list --> sl: return
+sl --> controller: return
+controller -> data_list: notify()
+deactivate controller
+data_list -> view: set_table_params(column_names, count)
+data_list -> view: set_table_data(data)
+view -> view: update_table_data()
+view -> user: Display data to User
+deactivate view
+
+
+
+
+@enduml
