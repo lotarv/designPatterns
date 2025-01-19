@@ -41,7 +41,7 @@ class Student_list_view < FXMainWindow
     show(PLACEMENT_SCREEN)
   end
 
-  def markup_filtration(filter_frame)
+  private def markup_filtration(filter_frame)
     FXLabel.new(filter_frame, "Фамилия и инициалы:")
     FXTextField.new(filter_frame, 20, nil, 0, TEXTFIELD_NORMAL | LAYOUT_FILL_X)
     # Поле фильтрации по git
@@ -61,7 +61,7 @@ class Student_list_view < FXMainWindow
 
   end
 
-  def add_filter_section(parent, label_text)
+  private def add_filter_section(parent, label_text)
     section_frame = FXVerticalFrame.new(parent, LAYOUT_FILL_X | LAYOUT_FIX_HEIGHT | FRAME_THICK, height: 80)
     FXLabel.new(section_frame, label_text)
   
@@ -90,7 +90,7 @@ class Student_list_view < FXMainWindow
 
   end
 
-  def markup_table(parent_frame)
+  private def markup_table(parent_frame)
     @table = FXTable.new(parent_frame, opts: TABLE_READONLY | LAYOUT_FILL_X | LAYOUT_FILL_Y)
     @table.rowHeader.width = 0 # Скрываем заголовки строк
     @table.setTableSize(@items_per_page, 4)
@@ -117,7 +117,7 @@ class Student_list_view < FXMainWindow
 
   end
 
-  def change_page(offset)
+  private def change_page(offset)
     new_page = @current_page + offset
     return if new_page < 0 || new_page >= @total_pages
     @current_page = new_page
@@ -142,7 +142,7 @@ class Student_list_view < FXMainWindow
 
 
   
-  def update_table_data()
+  private def update_table_data()
     (0...@items_per_page).each do |row|
       item = @table_data[row]
       if item
@@ -163,7 +163,7 @@ class Student_list_view < FXMainWindow
     @page_index.setText("#{@current_page + 1} / #{@total_pages}")
   end
 
-  def markup_buttons(button_frame)
+  private def markup_buttons(button_frame)
     FXLabel.new(button_frame, "Действия")
   
     # Кнопка Добавить
