@@ -5,7 +5,7 @@ class Student_list_controller
     def initialize(view)
         @view = view
         @student_list = Student_list.new(JSON_strategy.new())
-        @student_list.read('../resources/students.json')
+        read_data()
         @data_list = Data_list_student_short.new([])
         @data_list.add_observer(@view)
     end

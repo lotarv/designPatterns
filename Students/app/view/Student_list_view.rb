@@ -20,7 +20,7 @@ class Student_list_view < FXMainWindow
 
     # Область фильтрации
     filter_frame = FXVerticalFrame.new(main_frame, FRAME_SUNKEN | LAYOUT_FILL_Y | LAYOUT_FIX_WIDTH, width: 200)
-    make_and_fill_filtration(filter_frame)
+    markup_filtration(filter_frame)
 
     # Область с таблицей
     
@@ -32,7 +32,7 @@ class Student_list_view < FXMainWindow
     # Область с кнопками
     button_frame = FXVerticalFrame.new(main_frame, FRAME_SUNKEN | LAYOUT_FILL_Y | LAYOUT_FIX_WIDTH, width: 150)
     
-    make_buttons(button_frame)
+    markup_buttons(button_frame)
   end
 
   def create
@@ -40,7 +40,7 @@ class Student_list_view < FXMainWindow
     show(PLACEMENT_SCREEN)
   end
 
-  def make_and_fill_filtration(filter_frame)
+  def markup_filtration(filter_frame)
     FXLabel.new(filter_frame, "Фамилия и инициалы:")
     FXTextField.new(filter_frame, 20, nil, 0, TEXTFIELD_NORMAL | LAYOUT_FILL_X)
     # Поле фильтрации по git
@@ -162,7 +162,7 @@ class Student_list_view < FXMainWindow
     @page_index.setText("#{@current_page + 1} / #{@total_pages}")
   end
 
-  def make_buttons(button_frame)
+  def markup_buttons(button_frame)
     FXLabel.new(button_frame, "Действия")
   
     # Кнопка Добавить
