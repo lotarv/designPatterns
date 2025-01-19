@@ -4,11 +4,15 @@ require_relative '../controller/Student_list_controller.rb'
 include Fox
 
 class MainWindow < FXMainWindow
+  attr_reader :current_page, :items_per_page
   def initialize(app)
     # Основное окно приложения
     super(app, "Students",opts: DECOR_ALL & ~DECOR_RESIZE, width: 915, height: 440)
 
     @controller = Student_list_controller.new(self)
+    @items_per_page = 15
+    @current_page = 0
+    @sort_order = :asc
 
     # Контейнер с горизонтальным расположением
     main_frame = FXHorizontalFrame.new(self, LAYOUT_FILL_X | LAYOUT_FILL_Y)
@@ -34,12 +38,8 @@ class MainWindow < FXMainWindow
   end
 
   def make_and_fill_table(parent_frame)
-    #Подключение к БД
 
-    DB_connection.instance.connect()
-    student_list = Student_list_DB.new()
-    
-    @table_data = student_list.get_k_n_student_short_list(30, 1).get_data()
+    @controller.refresh_data()
     @items_per_page = 15
     @current_page = 0
     @total_pages = (@table_data.length.to_f / @items_per_page).ceil
@@ -50,14 +50,6 @@ class MainWindow < FXMainWindow
     @table = FXTable.new(table_frame, opts: TABLE_READONLY | LAYOUT_FILL_X | LAYOUT_FILL_Y)
     @table.rowHeader.width = 0 # Скрываем заголовки строк
     @table.setTableSize(@items_per_page, 4)
-    @table.setColumnText(0, "№")
-    @table.setColumnText(1, "Имя")
-    @table.setColumnText(2, "git")
-    @table.setColumnText(3, "Контакты")
-    @table.setColumnWidth(0, 30)
-    @table.setColumnWidth(1, 100)
-    @table.setColumnWidth(2, 200)
-    @table.setColumnWidth(3, 200)
 
     # Добавляем обработчик сортировки по колонке "Имя"
     @table.columnHeader.connect(SEL_COMMAND) do |sender, sel, event|
@@ -80,12 +72,31 @@ class MainWindow < FXMainWindow
     end
 
     next_button.connect(SEL_COMMAND) do
-      @current_page += 1 if (@current_page + 1) * @items_per_page < @table_data.size
-      update_table_data
+        @current_page += 1 if (@current_page + 1) * @items_per_page < @table_data.size
+        update_table_data
     end
 
     update_table_data # Обновляем таблицу сразу после создания
-end
+  end
+
+  def set_table_params(column_names, count)
+    column_names.each_with_index do |name, index| 
+        @table.setColumnText(index, name)
+    end
+
+    @table.setColumnWidth(0, 30)
+    @table.setColumnWidth(1, 100)
+    @table.setColumnWidth(2, 200)
+    @table.setColumnWidth(3, 200)
+
+    @total_pages = (count / (@items_per_page - 1).to_f).ceil
+  end
+
+  def set_table_data(data)
+    @table_data = data
+    update_table_data()
+  end
+
 
   
   def update_table_data
@@ -210,6 +221,10 @@ end
         @edit_button.enabled = false
         @delete_button.enabled = false
       end
+    end
+
+    def update()
+      puts "kek"
     end
   end
   

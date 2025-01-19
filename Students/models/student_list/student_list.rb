@@ -26,19 +26,24 @@ class Student_list
         raise ArgumentError, "id doesn't exist"
     end
 
-    def get_k_n_student_short_list(k,n)
+    def get_k_n_student_short_list(k,n, data_list = nil)
         start_from = k * (n-1)
-        finish = start_from + k
+        finish = [start_from + k - 1, @data.size - 1].min
+        
         slice = @data.slice(start_from..finish)
 
-        forming_data = []
+        slice = @data.slice(start_from..finish) || []  # Если slice nil, возвращаем пустой массив
 
-        slice.each do |student_str|
-            forming_data.push(Student_short.new_from_student_obj(Student.new(student_str)))
+        forming_data = slice.map do |student_str|
+        Student_short.new_from_student_obj(Student.new(student_str))
+
         end
 
-        return Data_list_student_short.new(forming_data)
-        
+        if (data_list)
+            data_list.set_content(forming_data)
+            return
+        else Data_list_student_short.new(forming_data)
+        end        
     end
 
     def sort()
@@ -71,6 +76,7 @@ class Student_list
     def get_student_short_count()
         return @data.count
     end
+
 
     private
 

@@ -45,4 +45,9 @@ class Data_table
     def [](index)
         return @data[index]
     end
+
+    def get_as_array()
+        return @data
+    end
+
 end

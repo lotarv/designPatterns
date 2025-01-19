@@ -11,8 +11,13 @@ class Student_list_controller
     end
 
     def refresh_data()
-        @data_list = @student_list.get_k_n_student_short_list(30,1)
+        @student_list.get_k_n_student_short_list(@view.items_per_page,@view.current_page + 1, @data_list) 
         @data_list.notify()
     end
+
+    def get_logs_count()
+        return @student_list.get_student_short_count()
+    end
+
 
 end
