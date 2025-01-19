@@ -3,7 +3,7 @@ require_relative '../../database-connection/Student_list_DB.rb'
 require_relative '../controller/Student_list_controller.rb'
 include Fox
 
-class MainWindow < FXMainWindow
+class Student_list_view < FXMainWindow
   attr_reader :current_page, :items_per_page
   def initialize(app)
     # Основное окно приложения
@@ -13,6 +13,7 @@ class MainWindow < FXMainWindow
     @items_per_page = 15
     @current_page = 0
     @sort_order = :asc
+    @total_pages = (@controller.get_logs_count / @items_per_page).ceil + 1
 
     # Контейнер с горизонтальным расположением
     main_frame = FXHorizontalFrame.new(self, LAYOUT_FILL_X | LAYOUT_FILL_Y)
@@ -22,119 +23,22 @@ class MainWindow < FXMainWindow
     make_and_fill_filtration(filter_frame)
 
     # Область с таблицей
+    
     table_frame = FXVerticalFrame.new(main_frame, FRAME_SUNKEN | LAYOUT_FILL_X | LAYOUT_FILL_Y)
-    make_and_fill_table(table_frame)
+    markup_table(table_frame)
+
+    @controller.refresh_data()
 
     # Область с кнопками
     button_frame = FXVerticalFrame.new(main_frame, FRAME_SUNKEN | LAYOUT_FILL_Y | LAYOUT_FIX_WIDTH, width: 150)
     
     make_buttons(button_frame)
-
   end
 
   def create
     super
     show(PLACEMENT_SCREEN)
   end
-
-  def make_and_fill_table(parent_frame)
-
-    @controller.refresh_data()
-    @items_per_page = 15
-    @current_page = 0
-    @total_pages = (@table_data.length.to_f / @items_per_page).ceil
-    @sort_order = :asc # По умолчанию сортировка по возрастанию
-
-    table_frame = FXVerticalFrame.new(parent_frame, LAYOUT_FILL_X | LAYOUT_FILL_Y)
-
-    @table = FXTable.new(table_frame, opts: TABLE_READONLY | LAYOUT_FILL_X | LAYOUT_FILL_Y)
-    @table.rowHeader.width = 0 # Скрываем заголовки строк
-    @table.setTableSize(@items_per_page, 4)
-
-    # Добавляем обработчик сортировки по колонке "Имя"
-    @table.columnHeader.connect(SEL_COMMAND) do |sender, sel, event|
-        if event.to_i == 1 # Если кликнули по заголовку колонки "Имя"
-            sort_table_data_by_name
-            update_table_data
-        end
-    end
-    
-
-    # Пагинация
-    pagination_frame = FXHorizontalFrame.new(table_frame, LAYOUT_FILL_X | LAYOUT_CENTER_X)
-    prev_button = FXButton.new(pagination_frame, "< Предыдущая", opts: BUTTON_NORMAL | LAYOUT_SIDE_LEFT)
-    @page_label = FXLabel.new(pagination_frame, "Страница: 1 / #{@total_pages}", opts: JUSTIFY_CENTER_X | LAYOUT_FILL_X)
-    next_button = FXButton.new(pagination_frame, "Следующая >", opts: BUTTON_NORMAL | LAYOUT_SIDE_RIGHT)
-
-    prev_button.connect(SEL_COMMAND) do
-      @current_page -= 1 if @current_page > 0
-      update_table_data
-    end
-
-    next_button.connect(SEL_COMMAND) do
-        @current_page += 1 if (@current_page + 1) * @items_per_page < @table_data.size
-        update_table_data
-    end
-
-    update_table_data # Обновляем таблицу сразу после создания
-  end
-
-  def set_table_params(column_names, count)
-    column_names.each_with_index do |name, index| 
-        @table.setColumnText(index, name)
-    end
-
-    @table.setColumnWidth(0, 30)
-    @table.setColumnWidth(1, 100)
-    @table.setColumnWidth(2, 200)
-    @table.setColumnWidth(3, 200)
-
-    @total_pages = (count / (@items_per_page - 1).to_f).ceil
-  end
-
-  def set_table_data(data)
-    @table_data = data
-    update_table_data()
-  end
-
-
-  
-  def update_table_data
-    start_index = @current_page * @items_per_page
-    end_index = [start_index + @items_per_page, @table_data.size].min
-  
-    (0...@items_per_page).each do |row|
-      if start_index + row < end_index
-        item = @table_data[start_index + row]
-        @table.setItemText(row, 0, item[0].to_s)
-        @table.setItemText(row, 1, item[1])
-        @table.setItemText(row, 2, item[2])
-        @table.setItemText(row, 3, item[3])
-      else
-        @table.setItemText(row, 0, "")
-        @table.setItemText(row, 1, "")
-        @table.setItemText(row, 2, "")
-        @table.setItemText(row, 3, "")
-      end
-    end
-  
-    # Обновление метки текущей страницы
-    @page_label.text = "Страница: #{@current_page + 1} / #{@total_pages}" if @page_label
-  
-    # Обновление метки текущей страницы
-    @page_label.setText("Страница: #{@current_page + 1} / #{@total_pages}")
-  end
-
-  # Метод для сортировки данных по колонке "Имя"
-def sort_table_data_by_name
-    if @sort_order == :asc
-        @table_data.sort_by! { |row| row[1] }
-        @sort_order = :desc
-    else
-        @table_data.sort_by! { |row| row[1] }.reverse!
-        @sort_order = :asc
-    end
-end
 
   def make_and_fill_filtration(filter_frame)
     FXLabel.new(filter_frame, "Фамилия и инициалы:")
@@ -185,6 +89,79 @@ end
 
   end
 
+  def markup_table(parent_frame)
+    @table = FXTable.new(parent_frame, opts: TABLE_READONLY | LAYOUT_FILL_X | LAYOUT_FILL_Y)
+    @table.rowHeader.width = 0 # Скрываем заголовки строк
+    @table.setTableSize(@items_per_page, 4)
+    @table.setColumnWidth(0, 30)
+    @table.setColumnWidth(1, 100)
+    @table.setColumnWidth(2, 200)
+    @table.setColumnWidth(3, 200)
+
+    # Обработчик нажатия на заголовок первого столбца
+    @table.columnHeader.connect(SEL_COMMAND) do |sender, sel, event|
+    if event.to_i == 1  # 0 — это индекс первого столбца
+        @controller.sort_by_column(1)  # Сортировка по первому столбцу
+        @controller.refresh_data  # Обновление данных
+    end
+  end
+
+    navigation_segment = FXHorizontalFrame.new(parent_frame, opts: LAYOUT_CENTER_X | LAYOUT_FIX_WIDTH, width:100)
+    @prev_button = FXButton.new(navigation_segment, "<<<", opts: LAYOUT_LEFT | BUTTON_NORMAL)
+    @page_index = FXLabel.new(navigation_segment, "#{@current_page + 1}", opts: LAYOUT_CENTER_X)
+    @next_button = FXButton.new(navigation_segment, ">>>", opts: LAYOUT_RIGHT | BUTTON_NORMAL)
+
+    @prev_button.connect(SEL_COMMAND) {change_page(-1)}
+    @next_button.connect(SEL_COMMAND) {change_page(1)}
+
+  end
+
+  def change_page(offset)
+    new_page = @current_page + offset
+    return if new_page < 0 || new_page >= @total_pages
+    @current_page = new_page
+    @controller.refresh_data
+  end
+
+  def set_table_params(column_names, rows_count)
+    column_names.each_with_index do |name, index| 
+        @table.setColumnText(index, name)
+    end
+
+    @table.setColumnWidth(0, 30)
+    @table.setColumnWidth(1, 100)
+    @table.setColumnWidth(2, 200)
+    @table.setColumnWidth(3, 200)
+  end
+
+  def set_table_data(data)
+    @table_data = data
+    update_table_data()
+  end
+
+
+  
+  def update_table_data()
+    (0...@items_per_page).each do |row|
+      item = @table_data[row]
+      if item
+        @table.setItemText(row, 0, (item[0] + (@current_page * @items_per_page)).to_s)
+        @table.setItemText(row, 1, item[1])
+        @table.setItemText(row, 2, item[2])
+        @table.setItemText(row, 3, item[3])
+      else
+        # Очистка строки, если данных нет
+        @table.setItemText(row, 0, "")
+        @table.setItemText(row, 1, "")
+        @table.setItemText(row, 2, "")
+        @table.setItemText(row, 3, "")
+      end
+    end
+  
+    # Обновление метки текущей страницы
+    @page_index.setText("#{@current_page + 1} / #{@total_pages}")
+  end
+
   def make_buttons(button_frame)
     FXLabel.new(button_frame, "Действия")
   
@@ -200,10 +177,11 @@ end
     @delete_button.enabled = false # По умолчанию отключена
   
     # Кнопка Обновить
-    FXButton.new(button_frame, "Обновить", opts: BUTTON_NORMAL | LAYOUT_FILL_X).connect(SEL_COMMAND) do
-      update_table_data # Обновляет таблицу согласно установленным фильтрам
+    @update_button = FXButton.new(button_frame, "Обновить", opts: BUTTON_NORMAL | LAYOUT_FILL_X)
+    @update_button.connect(SEL_COMMAND) do
+      @controller.read_data()
+      @controller.refresh_data()
     end
-  
     # Подключаем обработчик выбора строк в таблице
     @table.connect(SEL_CHANGED) do
       selected_rows = []
@@ -222,20 +200,14 @@ end
         @delete_button.enabled = false
       end
     end
-
-    def update()
-      puts "kek"
-    end
   end
-  
-  
-  
+
 
 end
 
 if __FILE__ == $0
   app = FXApp.new
-  MainWindow.new(app)
+  Student_list_view.new(app)
   app.create
   app.run
 end

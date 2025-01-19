@@ -1,6 +1,6 @@
 require_relative './view/Student_list_view.rb'
 
 app = FXApp.new
-MainWindow.new(app)
+Student_list_view.new(app)
 app.create()
 app.run()
