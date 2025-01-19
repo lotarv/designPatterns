@@ -32,6 +32,17 @@ class Data_table
         end
         
         return @data[row][col]
+    end
 
+    def length()
+        return @data.length
+    end
+
+    def size()
+        return @data.length
+    end
+
+    def [](index)
+        return @data[index]
     end
 end

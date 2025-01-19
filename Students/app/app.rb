@@ -1,11 +1,11 @@
 require 'fox16'
-
+require_relative '../database-connection/Student_list_DB.rb'
 include Fox
 
 class MainWindow < FXMainWindow
   def initialize(app)
     # Основное окно приложения
-    super(app, "Три области",opts: DECOR_ALL & ~DECOR_RESIZE, width: 915, height: 440)
+    super(app, "Students",opts: DECOR_ALL & ~DECOR_RESIZE, width: 915, height: 440)
 
     # Контейнер с горизонтальным расположением
     main_frame = FXHorizontalFrame.new(self, LAYOUT_FILL_X | LAYOUT_FILL_Y)
@@ -22,6 +22,9 @@ class MainWindow < FXMainWindow
     button_frame = FXVerticalFrame.new(main_frame, FRAME_SUNKEN | LAYOUT_FILL_Y | LAYOUT_FIX_WIDTH, width: 150)
     
     make_buttons(button_frame)
+
+    
+    
   end
 
   def create
@@ -30,7 +33,13 @@ class MainWindow < FXMainWindow
   end
 
   def make_and_fill_table(parent_frame)
-    @table_data = Array.new(100) { |i| [i + 1, "Элемент #{i + 1}", "Описание #{i + 1}", "Контакты #{i + 1}"] }
+    #Подключение к БД
+
+    DB_connection.instance.connect()
+    student_list = Student_list_DB.new()
+
+    puts student_list.get_k_n_student_short_list(30, 1).get_data()
+    @table_data = student_list.get_k_n_student_short_list(30, 1).get_data()
     @items_per_page = 15
     @current_page = 0
     @total_pages = (@table_data.length.to_f / @items_per_page).ceil
