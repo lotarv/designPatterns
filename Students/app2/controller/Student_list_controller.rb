@@ -11,7 +11,8 @@ class Student_list_controller
     end
 
     def refresh_data()
-        @student_list.get_k_n_student_short_list(@view.items_per_page,@view.current_page + 1, @data_list) 
+        @student_list.get_k_n_student_short_list(@view.items_per_page,@view.current_page + 1, @data_list)
+        @student_list.read('../resources/students.json')
         @data_list.notify()
     end
 

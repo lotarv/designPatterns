@@ -18,6 +18,9 @@ class Student_list_view < FXMainWindow
     # Контейнер с горизонтальным расположением
     main_frame = FXHorizontalFrame.new(self, LAYOUT_FILL_X | LAYOUT_FILL_Y)
 
+    # Область фильтрации
+    filter_frame = FXVerticalFrame.new(main_frame, FRAME_SUNKEN | LAYOUT_FILL_Y | LAYOUT_FIX_WIDTH, width: 200)
+    make_and_fill_filtration(filter_frame)
 
     # Область с таблицей
     
@@ -25,11 +28,65 @@ class Student_list_view < FXMainWindow
     markup_table(table_frame)
 
     @controller.refresh_data()
+
+    # Область с кнопками
+    button_frame = FXVerticalFrame.new(main_frame, FRAME_SUNKEN | LAYOUT_FILL_Y | LAYOUT_FIX_WIDTH, width: 150)
+    
+    make_buttons(button_frame)
   end
 
   def create
     super
     show(PLACEMENT_SCREEN)
+  end
+
+  def make_and_fill_filtration(filter_frame)
+    FXLabel.new(filter_frame, "Фамилия и инициалы:")
+    FXTextField.new(filter_frame, 20, nil, 0, TEXTFIELD_NORMAL | LAYOUT_FILL_X)
+    # Поле фильтрации по git
+    add_filter_section(filter_frame, "Git")
+
+    # Поле фильтрации по почте
+    add_filter_section(filter_frame, "Почта")
+
+    # Поле фильтрации по телефону
+    add_filter_section(filter_frame, "Телефон")
+
+    # Поле фильтрации по Telegram
+    add_filter_section(filter_frame, "Telegram")
+
+    #Кнопка для сброса фильтров
+    FXButton.new(filter_frame, "Сбросить", opts: BUTTON_NORMAL)
+
+  end
+
+  def add_filter_section(parent, label_text)
+    section_frame = FXVerticalFrame.new(parent, LAYOUT_FILL_X | LAYOUT_FIX_HEIGHT | FRAME_THICK, height: 80)
+    FXLabel.new(section_frame, label_text)
+  
+    # Выпадающий список (ComboBox)
+    combo_box = FXComboBox.new(section_frame, 3, nil, 0, COMBOBOX_STATIC | LAYOUT_FILL_X)
+    combo_box.numVisible = 3
+    combo_box.appendItem("Не важно")
+    combo_box.appendItem("Да")
+    combo_box.appendItem("Нет")
+    combo_box.setCurrentItem(0) # По умолчанию выбрано "Не важно"
+  
+    # Поле ввода
+    input_field = FXTextField.new(section_frame, 20, opts: TEXTFIELD_NORMAL | LAYOUT_FILL_X)
+    input_field.hide
+
+    # Обработчик изменения выбора в ComboBox
+    combo_box.connect(SEL_COMMAND) do
+      case combo_box.currentItem
+      when 1 # "Да"
+        input_field.show
+      else # "Нет" или "Не важно"
+        input_field.hide
+      end
+      section_frame.recalc
+    end
+
   end
 
   def markup_table(parent_frame)
@@ -95,6 +152,45 @@ class Student_list_view < FXMainWindow
   
     # Обновление метки текущей страницы
     @page_index.setText("#{@current_page + 1} / #{@total_pages}")
+  end
+
+  def make_buttons(button_frame)
+    FXLabel.new(button_frame, "Действия")
+  
+    # Кнопка Добавить
+    FXButton.new(button_frame, "Добавить", opts: BUTTON_NORMAL | LAYOUT_FILL_X)
+  
+    # Кнопка Изменить
+    @edit_button = FXButton.new(button_frame, "Изменить", opts: BUTTON_NORMAL | LAYOUT_FILL_X)
+    @edit_button.enabled = false # По умолчанию отключена
+  
+    # Кнопка Удалить
+    @delete_button = FXButton.new(button_frame, "Удалить", opts: BUTTON_NORMAL | LAYOUT_FILL_X)
+    @delete_button.enabled = false # По умолчанию отключена
+  
+    # Кнопка Обновить
+    FXButton.new(button_frame, "Обновить", opts: BUTTON_NORMAL | LAYOUT_FILL_X).connect(SEL_COMMAND) do
+      update_table_data # Обновляет таблицу согласно установленным фильтрам
+    end
+  
+    # Подключаем обработчик выбора строк в таблице
+    @table.connect(SEL_CHANGED) do
+      selected_rows = []
+      (@table.selStartRow..@table.selEndRow).each do |row|
+        selected_rows << row if row >= 0 && row < @table.numRows && @table.rowSelected?(row)
+      end
+  
+      if selected_rows.size == 1 # Если выделена одна строка
+        @edit_button.enabled = true
+        @delete_button.enabled = true
+      elsif selected_rows.size > 1 # Если выделено больше одной строки
+        @edit_button.enabled = false
+        @delete_button.enabled = true
+      else # Если ничего не выделено
+        @edit_button.enabled = false
+        @delete_button.enabled = false
+      end
+    end
   end
 
 
